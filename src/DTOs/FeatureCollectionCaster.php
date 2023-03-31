@@ -1,6 +1,6 @@
 <?php
 
-namespace Avant\AutotraderStockClient\DTOs;
+namespace Taz\AutoTraderStockClient\DTOs;
 
 use Spatie\DataTransferObject\FieldValidator;
 use Spatie\DataTransferObject\ValueCaster;

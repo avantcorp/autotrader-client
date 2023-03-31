@@ -1,3 +1,6 @@
 /AutoTrader.zip
 /AutoTrader/
 /vendor/
+/.phpunit.result.cache
+/test.php
+/composer.lock

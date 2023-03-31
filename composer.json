@@ -1,11 +1,31 @@
 {
-    "require": {
-        "illuminate/support": "^7.0",
-        "nesbot/carbon": "^2.66",
-        "guzzlehttp/guzzle": "^7.5",
-        "illuminate/http": "^7.30",
-        "spatie/data-transfer-object": "^2.8",
-        "spatie/laravel-enum": "^1.6",
-      "ext-json": "*"
+  "name": "tazcorporation/autotrader-stock-client",
+  "description": "Client for AutoTrader Stock API",
+  "type": "library",
+  "require": {
+    "ext-json": "*",
+    "spatie/data-transfer-object": "^2.8",
+    "spatie/laravel-enum": "^1.6",
+    "illuminate/contracts": "^7.0",
+    "guzzlehttp/guzzle": "^7.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Taz\\AutoTraderStockClient\\": "src/"
     }
+  },
+  "require-dev": {
+    "orchestra/testbench": "^5.0",
+    "pestphp/pest": "^1.22"
+  },
+  "scripts": {
+    "post-autoload-dump": [
+      "@php vendor/bin/testbench package:discover --ansi"
+    ]
+  },
+  "config": {
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
+  }
 }

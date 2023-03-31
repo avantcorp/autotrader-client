@@ -1,10 +1,10 @@
 <?php
 
-namespace Avant\AutotraderStockClient\DTOs;
+namespace Taz\AutoTraderStockClient\DTOs;
 
 use Spatie\DataTransferObject\DataTransferObject;
-use Avant\AutotraderStockClient\Enums\Category;
-use Avant\AutotraderStockClient\Enums\Type;
+use Taz\AutoTraderStockClient\Enums\Category;
+use Taz\AutoTraderStockClient\Enums\Type;
 
 class FeatureDTO extends DataTransferObject
 {

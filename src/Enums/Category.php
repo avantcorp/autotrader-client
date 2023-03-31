@@ -1,8 +1,8 @@
 <?php
 
-namespace Avant\AutotraderStockClient\Enums;
+namespace Taz\AutoTraderStockClient\Enums;
 
-use Avant\AutotraderStockClient\DTOs\EnumCaster;
+use Taz\AutoTraderStockClient\DTOs\EnumCaster;
 
 /**
  * @method static self audioAndCommunications()

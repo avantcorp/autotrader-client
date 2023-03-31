@@ -1,9 +1,9 @@
 <?php
 
-namespace Avant\AutotraderStockClient\DTOs;
+namespace Taz\AutoTraderStockClient\DTOs;
 
 use Illuminate\Support\Collection;
-use Avant\AutotraderStockClient\Enums\Type;
+use Taz\AutoTraderStockClient\Enums\Type;
 
 class CollectionOfFeatures extends Collection
 {

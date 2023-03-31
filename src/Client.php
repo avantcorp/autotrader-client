@@ -1,15 +1,14 @@
 <?php
 
-namespace Avant\AutotraderStockClient;
+namespace Taz\AutoTraderStockClient;
 
-use Avant\AutotraderStockClient\DTOs\VehicleDTO;
 use Carbon\Carbon;
-use GuzzleHttp\RequestOptions;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use Taz\AutoTraderStockClient\DTOs\VehicleDTO;
 
 class Client
 {
@@ -42,7 +41,7 @@ class Client
                         ->object();
                     $expiry = Carbon::parse($tokenResponse->expires);
 
-                    return Cache::remember(static::CACHE_KEY, $expiry, fn() => $tokenResponse->access_token);
+                    return Cache::remember(static::CACHE_KEY, $expiry, fn () => $tokenResponse->access_token);
                 });
             });
     }
@@ -53,14 +52,14 @@ class Client
             ->withToken($this->getToken())
             ->acceptJson()
             ->asJson()
-            ->withOptions([RequestOptions::QUERY => ['advertiserId' => $this->advertiserId]]);
+            ->withOptions(['query' => ['advertiserId' => $this->advertiserId]]);
     }
 
     public function getVehicle(string $registration): VehicleDTO
     {
         $response = $this->request()
             ->get('/service/stock-management/vehicles', [
-                'registration' => (string) Str::of($registration)->upper()->replace(' ', ''),
+                'registration' => (string)Str::of($registration)->upper()->replace(' ', ''),
             ])
             ->throw()
             ->json();
