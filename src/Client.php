@@ -74,6 +74,16 @@ class Client
                 'vehicle' => $vehicle
             ])
             ->throw()
-            ->json();
+            ->object();
+    }
+
+    public function updateVehicle(VehicleDTO $vehicle)
+    {
+        $response = $this->request()
+            ->patch('/service/stock-management/stock', [
+                'vehicle' => $vehicle
+            ])
+            ->throw()
+            ->object();
     }
 }
