@@ -1,0 +1,8 @@
+{
+    "require": {
+        "illuminate/support": "^7.0",
+        "nesbot/carbon": "^2.66",
+        "guzzlehttp/guzzle": "^7.5",
+        "illuminate/http": "^7.30"
+    }
+}
