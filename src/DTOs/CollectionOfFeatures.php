@@ -1,0 +1,29 @@
+<?php
+
+namespace Avant\AutotraderStockClient\DTOs;
+
+use Illuminate\Support\Collection;
+use Avant\AutotraderStockClient\Enums\Type;
+
+class CollectionOfFeatures extends Collection
+{
+    public function offsetGet($key): FeatureDTO
+    {
+        return parent::offsetGet($key);
+    }
+
+    public function standard(): CollectionOfFeatures
+    {
+        return $this->filter(fn(FeatureDTO $feature) => $feature->type === Type::standard());
+    }
+
+    public function optional(): CollectionOfFeatures
+    {
+        return $this->filter(fn(FeatureDTO $feature) => $feature->type === Type::optional());
+    }
+
+    public function groupByCategory(): CollectionOfFeatures
+    {
+        return $this->groupBy(fn(FeatureDTO $feature) => $feature->category->labels(), true);
+    }
+}

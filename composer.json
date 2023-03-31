@@ -3,6 +3,9 @@
         "illuminate/support": "^7.0",
         "nesbot/carbon": "^2.66",
         "guzzlehttp/guzzle": "^7.5",
-        "illuminate/http": "^7.30"
+        "illuminate/http": "^7.30",
+        "spatie/data-transfer-object": "^2.8",
+        "spatie/laravel-enum": "^1.6",
+      "ext-json": "*"
     }
 }
