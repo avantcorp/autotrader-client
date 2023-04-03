@@ -68,6 +68,7 @@ class Client
         return new VehicleDTO(Arr::get($response, 'vehicle'));
     }
 
+
     public function postVehicle(VehicleDTO $vehicle)
     {
         $response = $this->request()
