@@ -13,7 +13,7 @@ use Taz\AutoTraderStockClient\DTOs\VehicleDTO;
 
 class Client
 {
-    const BASE_URL = 'https://api.autotrader.co.uk/';
+    const BASE_URL = 'https://api-sandbox.autotrader.co.uk/';
     const CACHE_KEY = 'autotrader-stock-client.access_token';
 
     private $key;
@@ -40,7 +40,7 @@ class Client
                         ])
                         ->throw()
                         ->object();
-                    $expiry = Carbon::parse($tokenResponse->expires);
+                    $expiry = Carbon::parse($tokenResponse->expires)->subMinutes(5);
 
                     return Cache::remember(static::CACHE_KEY, $expiry, fn() => $tokenResponse->access_token);
                 });

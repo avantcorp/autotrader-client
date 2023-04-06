@@ -1,11 +1,8 @@
 <?php
 
-test('example', function () {
-    $client = new \Taz\AutoTraderStockClient\Client(
-        'key',
-        'secret',
-        'advertiserId'
-    );
+use Taz\AutoTraderStockClient\DTOs\VehicleDTO;
 
-    $client->getVehicle('AB12CDE');
+test('basic get vehicle', function () {
+    expect($this->client->getVehicle('KS17FOA'))
+        ->toBeInstanceOf(VehicleDTO::class);
 });
