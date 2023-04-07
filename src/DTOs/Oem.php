@@ -6,7 +6,7 @@ namespace Taz\AutoTraderStockClient\DTOs;
 
 use Spatie\DataTransferObject\DataTransferObject;
 
-class OemDTO extends DataTransferObject
+class Oem extends DataTransferObject
 {
     public ?string $make;
     public ?string $model;

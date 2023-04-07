@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Taz\AutoTraderStockClient\DTOs;
 
-use Spatie\DataTransferObject\DataTransferObject;
+use Spatie\DataTransferObject\FlexibleDataTransferObject;
 
-class VehicleDTO extends DataTransferObject
+class Vehicle extends FlexibleDataTransferObject
 {
     public ?string $ownershipCondition;
     public ?string $registration;
@@ -47,7 +47,7 @@ class VehicleDTO extends DataTransferObject
     public ?string $fuelEconomyWLTPMediumMPG;
     public ?string $fuelEconomyWLTPHighMPG;
     public ?string $fuelEconomyWLTPExtraHighMPG;
-    public ?string $fuelEconomyWLTPCombinedMPG;
+    public ?float $fuelEconomyWLTPCombinedMPG;
     public ?float $bootSpaceSeatsUpLitres;
     public ?string $insuranceGroup;
     public ?string $insuranceSecurityCode;
@@ -90,6 +90,10 @@ class VehicleDTO extends DataTransferObject
     public ?string $payloadVolumeCubicMetres;
     public ?bool $rde2Compliant;
     public ?string $sector;
-    public OemDTO $oem;
-    public ?CollectionOfFeatures $features;
+    public ?Oem $oem;
+
+    public static function fromApi(array $data): Vehicle
+    {
+        return new static($data);
+    }
 }

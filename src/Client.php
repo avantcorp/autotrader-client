@@ -9,8 +9,10 @@ use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Str;
-use Taz\AutoTraderStockClient\DTOs\VehicleDTO;
+use Taz\AutoTraderStockClient\Collections\FeatureCollection;
+use Taz\AutoTraderStockClient\DTOs\MetaData;
+use Taz\AutoTraderStockClient\DTOs\Stock;
+use Taz\AutoTraderStockClient\DTOs\Vehicle;
 
 class Client
 {
@@ -60,29 +62,50 @@ class Client
             ->withOptions(['query' => ['advertiserId' => $this->advertiserId]]);
     }
 
-    public function getVehicle(string $registration): VehicleDTO
+    public function getVehicle(string $registration, iterable $with = []): Vehicle
     {
         $response = $this->request()
-            ->get('/vehicles', [
-                'registration' => $this->sanitizeRegistrationNumber($registration),
-            ])
+            ->get('/vehicles',
+                array_merge(
+                    ['registration' => sanitize_registration($registration),],
+                    Collection::wrap($with)
+                        ->mapWithKeys(fn ($option) => [$option => 'true'])
+                        ->toArray()
+                ))
             ->throw()
             ->json();
 
-        return new VehicleDTO(Arr::get($response, 'vehicle'));
+        return Vehicle::fromApi($response['vehicle']);
     }
 
-    public function postVehicle(VehicleDTO $vehicle): void
+    public function getFeatures(string $registration): FeatureCollection
     {
         $response = $this->request()
+            ->get('/vehicles', [
+                'registration' => sanitize_registration($registration),
+                'features'     => 'true',
+                'vehicle'      => 'false',
+            ])
+            ->throw()
+            ->object();
+
+        return FeatureCollection::fromApi($response->features);
+    }
+
+    public function createStock(Vehicle $vehicle)
+    {
+        return $this->request()
             ->post('/stock', [
-                'vehicle' => $vehicle,
+                'vehicle'  => $vehicle,
+                'metadata' => [
+                    'externalStockReference' => $vehicle->registration,
+                ],
             ])
             ->throw()
             ->object();
     }
 
-    public function updateVehicle(VehicleDTO $vehicle): void
+    public function updateVehicle(Vehicle $vehicle): void
     {
         $response = $this->request()
             ->patch('/stock', [
@@ -92,43 +115,39 @@ class Client
             ->object();
     }
 
-    public function listVehicles(array $filters = []): Collection
+    public function listStock(array $filters = []): Collection
     {
         $response = $this->request()
-            ->get('/stock', array_merge([
-                'vehicle'         => 'false',
-                'advertiser'      => 'false',
-                'adverts'         => 'false',
-                'finance'         => 'false',
-                'metadata'        => 'false',
-                'features'        => 'false',
-                'media'           => 'false',
-                'responseMetrics' => 'false',
-                'check'           => 'false',
-            ], $filters))
+            ->get('/stock',
+                array_merge([
+                    'vehicle'         => 'false',
+                    'advertiser'      => 'false',
+                    'adverts'         => 'false',
+                    'finance'         => 'false',
+                    // 'metadata'        => 'false',
+                    'features'        => 'false',
+                    'media'           => 'false',
+                    'responseMetrics' => 'false',
+                    'check'           => 'false',
+                ], $filters))
             ->throw()
             ->json();
 
-        return collect(Arr::get($response, 'vehicles'))
-            ->map(fn ($vehicle) => new VehicleDTO($vehicle));
+        return collect($response['results'])
+            ->map(fn ($item) => Stock::fromApi($item));
     }
 
-    public function listVehiclesByReg(string $registration): VehicleDTO
+    public function listVehiclesByReg(string $registration): Vehicle
     {
-        return $this->listVehicles([
-            'registration' => $this->sanitizeRegistrationNumber($registration),
+        return $this->listStock([
+            'registration' => sanitize_registration($registration),
         ])->first();
     }
 
-    public function listVehiclesByVin(VehicleDTO $vehicleVin): VehicleDTO
+    public function listVehiclesByVin(Vehicle $vehicleVin): Vehicle
     {
-        return $this->listVehicles([
+        return $this->listStock([
             'vin' => $vehicleVin,
         ])->first();
-    }
-
-    public function sanitizeRegistrationNumber(string $registration): string
-    {
-        return Str::of($registration)->upper()->replace(' ', '')->__toString();
     }
 }

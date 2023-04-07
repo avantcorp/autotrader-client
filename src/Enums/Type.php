@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Taz\AutoTraderStockClient\Enums;
 
-use Taz\AutoTraderStockClient\DTOs\EnumCaster;
+use Taz\AutoTraderStockClient\Casters\EnumCaster;
 
 /**
  * @method static self standard()

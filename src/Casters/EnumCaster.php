@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Taz\AutoTraderStockClient\DTOs;
+namespace Taz\AutoTraderStockClient\Casters;
 
 use Illuminate\Support\Str;
 use Spatie\DataTransferObject\FieldValidator;
