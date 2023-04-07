@@ -5,15 +5,16 @@ declare(strict_types=1);
 namespace Test;
 
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
+use Orchestra\Testbench\TestCase as BaseTestCase;
 use Taz\AutoTraderStockClient\Client;
 
-class TestCase extends \Orchestra\Testbench\TestCase
+class TestCase extends BaseTestCase
 {
     protected ?Client $client = null;
 
     protected function setUp(): void
     {
-        $this->setUpTheTestEnvironment();
+        parent::setUp();
         $this->client = new Client(
             env('KEY'),
             env('SECRET'),
