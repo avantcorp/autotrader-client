@@ -15,7 +15,6 @@ use Taz\AutoTraderStockClient\DTOs\VehicleDTO;
 class Client
 {
     public const CACHE_KEY = 'autotrader-stock-client.access_token';
-
     private string $key;
     private string $secret;
     private string $advertiserId;
@@ -37,14 +36,17 @@ class Client
                     $tokenResponse = Http::baseUrl($this->baseUrl)
                         ->asForm()
                         ->post('authenticate', [
-                            'key' => $this->key,
+                            'key'    => $this->key,
                             'secret' => $this->secret,
                         ])
                         ->throw()
                         ->object();
-                    $expiry = Carbon::parse($tokenResponse->expires)->subMinutes(5);
 
-                    return cache()->remember(static::CACHE_KEY, $expiry, fn () => $tokenResponse->access_token);
+                    return cache()->remember(
+                        static::CACHE_KEY,
+                        Carbon::parse($tokenResponse->expires)->subMinutes(5),
+                        fn () => $tokenResponse->access_token
+                    );
                 });
             });
     }
@@ -70,12 +72,11 @@ class Client
         return new VehicleDTO(Arr::get($response, 'vehicle'));
     }
 
-
     public function postVehicle(VehicleDTO $vehicle): void
     {
         $response = $this->request()
             ->post('/stock', [
-                'vehicle' => $vehicle
+                'vehicle' => $vehicle,
             ])
             ->throw()
             ->object();
@@ -85,7 +86,7 @@ class Client
     {
         $response = $this->request()
             ->patch('/stock', [
-                'vehicle' => $vehicle
+                'vehicle' => $vehicle,
             ])
             ->throw()
             ->object();
@@ -95,23 +96,21 @@ class Client
     {
         $response = $this->request()
             ->get('/stock', array_merge([
-                'vehicle' => 'false',
-                'advertiser' => 'false',
-                'adverts' => 'false',
-                'finance' => 'false',
-                'metadata' => 'false',
-                'features' => 'false',
-                'media' => 'false',
+                'vehicle'         => 'false',
+                'advertiser'      => 'false',
+                'adverts'         => 'false',
+                'finance'         => 'false',
+                'metadata'        => 'false',
+                'features'        => 'false',
+                'media'           => 'false',
                 'responseMetrics' => 'false',
-                'check' => 'false',
+                'check'           => 'false',
             ], $filters))
             ->throw()
             ->json();
 
         return collect(Arr::get($response, 'vehicles'))
-            ->map(function ($vehicle) {
-                return new VehicleDTO($vehicle);
-            });
+            ->map(fn ($vehicle) => new VehicleDTO($vehicle));
     }
 
     public function listVehiclesByReg(string $registration): VehicleDTO
@@ -124,12 +123,12 @@ class Client
     public function listVehiclesByVin(VehicleDTO $vehicleVin): VehicleDTO
     {
         return $this->listVehicles([
-            'vin' => $vehicleVin
+            'vin' => $vehicleVin,
         ])->first();
     }
 
     public function sanitizeRegistrationNumber(string $registration): string
     {
-        return (string)Str::of($registration)->upper()->replace(' ', '');
+        return Str::of($registration)->upper()->replace(' ', '')->__toString();
     }
 }

@@ -11,10 +11,12 @@ class FeatureCollectionCaster extends ValueCaster
 {
     public function cast($value, FieldValidator $validator): CollectionOfFeatures
     {
-        return (new CollectionOfFeatures(array_map(
-            fn (array $data) => new FeatureDTO(...$data),
-            $value
-        )))
+        return (new CollectionOfFeatures(
+            array_map(
+                fn (array $data) => new FeatureDTO(...$data),
+                $value
+            )
+        ))
             ->keyBy('name');
     }
 }

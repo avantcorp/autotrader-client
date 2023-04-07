@@ -8,6 +8,7 @@
         "declare_parentheses": true,
         "declare_strict_types": true,
         "explicit_string_variable": true,
+        "method_argument_space": false,
         "global_namespace_import": {
             "import_classes": true,
             "import_constants": true,

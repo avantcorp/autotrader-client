@@ -22,7 +22,7 @@ use Taz\AutoTraderStockClient\DTOs\EnumCaster;
  */
 class Category extends EnumCaster
 {
-    public static function labels()
+    public static function labels(): array
     {
         return [
             'audioAndCommunications' => 'Audio and Communications',

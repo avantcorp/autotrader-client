@@ -10,10 +10,9 @@ use Taz\AutoTraderStockClient\DTOs\EnumCaster;
  * @method static self standard()
  * @method static self optional()
  */
-
 class Type extends EnumCaster
 {
-    public static function labels()
+    public static function labels(): array
     {
         return [
             'standard' => 'Standard',
