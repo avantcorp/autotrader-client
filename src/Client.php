@@ -92,9 +92,9 @@ class Client
         return FeatureCollection::fromApi($response->features);
     }
 
-    public function createStock(Vehicle $vehicle)
+    public function createStock(Vehicle $vehicle): Stock
     {
-        return $this->request()
+        $response = $this->request()
             ->post('/stock', [
                 'vehicle'  => $vehicle,
                 'metadata' => [
@@ -102,17 +102,19 @@ class Client
                 ],
             ])
             ->throw()
-            ->object();
+            ->json();
+
+        return Stock::fromApi($response);
     }
 
-    public function updateVehicle(Vehicle $vehicle): void
+    public function updateVehicle(Stock $stock): Stock
     {
         $response = $this->request()
-            ->patch('/stock', [
-                'vehicle' => $vehicle,
-            ])
+            ->patch("/stock/{$stock->metadata->stockId}", $stock->toArray())
             ->throw()
-            ->object();
+            ->json();
+
+        return Stock::fromApi($response);
     }
 
     public function listStock(array $filters = []): Collection
@@ -120,7 +122,7 @@ class Client
         $response = $this->request()
             ->get('/stock',
                 array_merge([
-                    'vehicle'         => 'false',
+                    // 'vehicle'         => 'false',
                     'advertiser'      => 'false',
                     'adverts'         => 'false',
                     'finance'         => 'false',
@@ -137,7 +139,7 @@ class Client
             ->map(fn ($item) => Stock::fromApi($item));
     }
 
-    public function listVehiclesByReg(string $registration): Vehicle
+    public function listVehiclesByReg(string $registration): Stock
     {
         return $this->listStock([
             'registration' => sanitize_registration($registration),

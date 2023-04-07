@@ -19,6 +19,22 @@ test('get stock list', function (): void {
 
 test('create stock', function () {
     $response = $this->client->createStock(
-        $this->client->getVehicle('EA63OXH')
+        $this->client->getVehicle('LM11AXN')
     );
+});
+
+test('list vehicle by reg no.', function () {
+    $stock = $this->client->listVehiclesByReg('LM11AXN');
+});
+
+test('create and delete vehicle', function () {
+    $vehicle = $this->client->getVehicle('GX65OKB');
+    $stock = $this->client->createStock($vehicle);
+    expect($stock)->toBeInstanceOf(Stock::class)
+        ->and($stock->metadata->lifecycleState)->not()->toBe('DELETED');
+
+    $stock->metadata->lifecycleState = 'DELETED';
+    $stock = $this->client->updateVehicle($stock);
+    expect($stock)->toBeInstanceOf(Stock::class)
+        ->and($stock->metadata->lifecycleState)->toBe('DELETED');
 });
