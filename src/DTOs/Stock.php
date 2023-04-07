@@ -6,7 +6,7 @@ namespace Taz\AutoTraderStockClient\DTOs;
 
 use Spatie\DataTransferObject\DataTransferObject;
 
-class Stock extends DataTransferObject
+class Stock extends DTO
 {
     public ?MetaData $metadata;
     public ?Vehicle $vehicle;

@@ -123,14 +123,14 @@ class Client
             ->get('/stock',
                 array_merge([
                     // 'vehicle'         => 'false',
-                    'advertiser'      => 'false',
-                    'adverts'         => 'false',
-                    'finance'         => 'false',
+                    // 'advertiser'      => 'false',
+                    // 'adverts'         => 'false',
+                    // 'finance'         => 'false',
                     // 'metadata'        => 'false',
-                    'features'        => 'false',
-                    'media'           => 'false',
-                    'responseMetrics' => 'false',
-                    'check'           => 'false',
+                    // 'features'        => 'false',
+                    // 'media'           => 'false',
+                    // 'responseMetrics' => 'false',
+                    // 'check'           => 'false',
                 ], $filters))
             ->throw()
             ->json();
@@ -139,17 +139,27 @@ class Client
             ->map(fn ($item) => Stock::fromApi($item));
     }
 
-    public function listVehiclesByReg(string $registration): Stock
+    public function getStockByRegistration(string $registration): Stock
     {
         return $this->listStock([
             'registration' => sanitize_registration($registration),
         ])->first();
     }
 
-    public function listVehiclesByVin(Vehicle $vehicleVin): Vehicle
+    public function getStockByVin(string $vin): Stock
     {
         return $this->listStock([
-            'vin' => $vehicleVin,
+            'vin' => $vin,
         ])->first();
+    }
+
+    public function getStockById(string $id): Stock
+    {
+        $response = $this->request()
+            ->get("/stock/{$id}")
+            ->throw()
+            ->json();
+
+        return Stock::fromApi($response);
     }
 }

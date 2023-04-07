@@ -24,7 +24,7 @@ test('create stock', function () {
 });
 
 test('list vehicle by reg no.', function () {
-    $stock = $this->client->listVehiclesByReg('LM11AXN');
+    $stock = $this->client->getStockByRegistration('LM11AXN');
 });
 
 test('create and delete vehicle', function () {
@@ -37,4 +37,8 @@ test('create and delete vehicle', function () {
     $stock = $this->client->updateVehicle($stock);
     expect($stock)->toBeInstanceOf(Stock::class)
         ->and($stock->metadata->lifecycleState)->toBe('DELETED');
+});
+
+test('all stock DTOs', function() {
+    $stock = $this->client->getStockByRegistration('KS17FOA');
 });
