@@ -14,6 +14,11 @@
       "Taz\\AutoTraderStockClient\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Test\\": "tests/"
+    }
+  },
   "require-dev": {
     "orchestra/testbench": "^5.0",
     "pestphp/pest": "^1.22"

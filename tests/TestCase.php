@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Test;
+
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 use Taz\AutoTraderStockClient\Client;
 
@@ -15,11 +17,12 @@ class TestCase extends \Orchestra\Testbench\TestCase
         $this->client = new Client(
             env('KEY'),
             env('SECRET'),
-            env('ADVERTISER_ID')
+            env('ADVERTISER_ID'),
+            true
         );
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         $app->useEnvironmentPath(__DIR__.'/..');
         $app->bootstrapWith([LoadEnvironmentVariables::class]);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Taz\AutoTraderStockClient\Enums;
 
 use Taz\AutoTraderStockClient\DTOs\EnumCaster;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Taz\AutoTraderStockClient\DTOs;
 
 use Spatie\DataTransferObject\DataTransferObject;

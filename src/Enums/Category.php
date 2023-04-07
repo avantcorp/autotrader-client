@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Taz\AutoTraderStockClient\Enums;
 
 use Taz\AutoTraderStockClient\DTOs\EnumCaster;
@@ -18,24 +20,23 @@ use Taz\AutoTraderStockClient\DTOs\EnumCaster;
  * @method static self other()
  * @method static self servicingAndWarranty()
  */
-
 class Category extends EnumCaster
 {
     public static function labels()
     {
         return [
             'audioAndCommunications' => 'Audio and Communications',
-            'exterior' => 'Exterior',
-            'driversAssistance' => 'Assistance',
-            'performance' => 'Performance',
-            'interior' => 'Interior',
-            'safetyAndSecurity' => 'Safety and Security',
-            'illumination' => 'Illumination',
-            'paint' => 'Paint',
-            'upholstery' => 'Upholstery',
-            'comfort' => 'Comfort',
-            'other' => 'Other',
-            'servicingAndWarranty' => 'Servicing and Warranty',
+            'exterior'               => 'Exterior',
+            'driversAssistance'      => 'Assistance',
+            'performance'            => 'Performance',
+            'interior'               => 'Interior',
+            'safetyAndSecurity'      => 'Safety and Security',
+            'illumination'           => 'Illumination',
+            'paint'                  => 'Paint',
+            'upholstery'             => 'Upholstery',
+            'comfort'                => 'Comfort',
+            'other'                  => 'Other',
+            'servicingAndWarranty'   => 'Servicing and Warranty',
         ];
     }
 }

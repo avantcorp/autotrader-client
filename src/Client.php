@@ -1,38 +1,40 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Taz\AutoTraderStockClient;
 
 use Carbon\Carbon;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Taz\AutoTraderStockClient\DTOs\VehicleDTO;
 
 class Client
 {
-    const BASE_URL = 'https://api-sandbox.autotrader.co.uk/';
-    const CACHE_KEY = 'autotrader-stock-client.access_token';
+    public const CACHE_KEY = 'autotrader-stock-client.access_token';
 
-    private $key;
-    private $secret;
-    private $advertiserId;
+    private string $key;
+    private string $secret;
+    private string $advertiserId;
+    private string $baseUrl;
 
-    public function __construct($key, $secret, $advertiserId)
+    public function __construct($key, $secret, $advertiserId, $sandbox = false)
     {
         $this->key = $key;
         $this->secret = $secret;
         $this->advertiserId = $advertiserId;
+        $this->baseUrl = sprintf('https://%s.autotrader.co.uk/', $sandbox ? 'api-sandbox' : 'api');
     }
 
-    private function getToken(): string
+    private function token(): string
     {
-        return Cache::lock(static::CACHE_KEY . '-lock')
+        return cache()->lock(static::CACHE_KEY.'-lock')
             ->block(10, function () {
-                return Cache::get(static::CACHE_KEY, function () {
-                    $tokenResponse = Http::baseUrl(static::BASE_URL)
+                return cache()->get(static::CACHE_KEY, function () {
+                    $tokenResponse = Http::baseUrl($this->baseUrl)
                         ->asForm()
                         ->post('authenticate', [
                             'key' => $this->key,
@@ -42,15 +44,15 @@ class Client
                         ->object();
                     $expiry = Carbon::parse($tokenResponse->expires)->subMinutes(5);
 
-                    return Cache::remember(static::CACHE_KEY, $expiry, fn() => $tokenResponse->access_token);
+                    return cache()->remember(static::CACHE_KEY, $expiry, fn () => $tokenResponse->access_token);
                 });
             });
     }
 
     private function request(): PendingRequest
     {
-        return Http::baseUrl(static::BASE_URL)
-            ->withToken($this->getToken())
+        return Http::baseUrl($this->baseUrl)
+            ->withToken($this->token())
             ->acceptJson()
             ->asJson()
             ->withOptions(['query' => ['advertiserId' => $this->advertiserId]]);
@@ -69,7 +71,7 @@ class Client
     }
 
 
-    public function postVehicle(VehicleDTO $vehicle)
+    public function postVehicle(VehicleDTO $vehicle): void
     {
         $response = $this->request()
             ->post('/stock', [
@@ -79,7 +81,7 @@ class Client
             ->object();
     }
 
-    public function updateVehicle(VehicleDTO $vehicle)
+    public function updateVehicle(VehicleDTO $vehicle): void
     {
         $response = $this->request()
             ->patch('/stock', [

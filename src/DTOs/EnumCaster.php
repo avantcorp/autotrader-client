@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Taz\AutoTraderStockClient\DTOs;
 
 use Illuminate\Support\Str;
@@ -15,9 +17,9 @@ class EnumCaster extends ValueCaster
         $this->enumClass = $types[0];
     }
 
-    public function cast($value, FieldValidator $validator):EnumCaster
+    public function cast($value, FieldValidator $validator): EnumCaster
     {
-        $value = lcfirst(Str::of(ucwords($value))->replace(' ', ''));
+        $value = lcfirst(Str::of(ucwords($value))->replace(' ', '')->__toString());
 
         return $this->enumClass::from($value);
     }

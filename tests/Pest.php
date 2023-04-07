@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
 |--------------------------------------------------------------------------
 | Test Case
@@ -11,8 +13,7 @@
 |
 */
 
-require_once __DIR__.'/TestCase.php';
-uses(TestCase::class)->in(__DIR__);
+uses(\Test\TestCase::class)->in(__DIR__);
 
 /*
 |--------------------------------------------------------------------------
@@ -40,7 +41,7 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+function something(): void
 {
     // ..
 }
