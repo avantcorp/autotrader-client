@@ -4,19 +4,10 @@ declare(strict_types=1);
 
 namespace Taz\AutoTraderStockClient\Enums;
 
-use Taz\AutoTraderStockClient\Casters\EnumCaster;
-
 /**
- * @method static self standard()
- * @method static self optional()
+ * @method static self STANDARD()
+ * @method static self OPTIONAL()
  */
-class Type extends EnumCaster
+class Type extends Enum
 {
-    public static function labels(): array
-    {
-        return [
-            'standard' => 'Standard',
-            'optional' => 'Optional',
-        ];
-    }
 }

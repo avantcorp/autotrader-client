@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Collection;
-use Taz\AutoTraderStockClient\DTOs\Stock;
+use Taz\AutoTraderStockClient\Models;
 
 test('get stock list', function (): void {
     $stock = $this->client->listStock();
@@ -13,21 +13,21 @@ test('get stock list', function (): void {
         ->and($stock->count())
         ->toBeGreaterThanOrEqual(1);
 
-    $stock
-        ->each(fn ($stock) => expect($stock)->toBeInstanceOf(Stock::class));
+    $stock->each(fn (Models\Stock $stock) => expect($stock->metadata->stockId)
+        ->not()->toBeNull());
 });
 
-test('create stock', function () {
+test('create stock', function (): void {
     $response = $this->client->createStock(
         $this->client->getVehicle('LM11AXN')
     );
 });
 
-test('list vehicle by reg no.', function () {
+test('list vehicle by reg no.', function (): void {
     $stock = $this->client->getStockByRegistration('LM11AXN');
 });
 
-test('create and delete vehicle', function () {
+test('create and delete vehicle', function (): void {
     $vehicle = $this->client->getVehicle('GX65OKB');
     $stock = $this->client->createStock($vehicle);
     expect($stock)->toBeInstanceOf(Stock::class)
@@ -39,6 +39,6 @@ test('create and delete vehicle', function () {
         ->and($stock->metadata->lifecycleState)->toBe('DELETED');
 });
 
-test('all stock DTOs', function() {
+test('all stock DTOs', function (): void {
     $stock = $this->client->getStockByRegistration('KS17FOA');
 });

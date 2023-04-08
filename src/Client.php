@@ -6,11 +6,9 @@ namespace Taz\AutoTraderStockClient;
 
 use Carbon\Carbon;
 use Illuminate\Http\Client\PendingRequest;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Taz\AutoTraderStockClient\Collections\FeatureCollection;
-use Taz\AutoTraderStockClient\DTOs\MetaData;
 use Taz\AutoTraderStockClient\DTOs\Stock;
 use Taz\AutoTraderStockClient\DTOs\Vehicle;
 
@@ -62,7 +60,7 @@ class Client
             ->withOptions(['query' => ['advertiserId' => $this->advertiserId]]);
     }
 
-    public function getVehicle(string $registration, iterable $with = []): Vehicle
+    public function getVehicle(string $registration, iterable $with = []): Models\Stock
     {
         $response = $this->request()
             ->get('/vehicles',
@@ -73,9 +71,9 @@ class Client
                         ->toArray()
                 ))
             ->throw()
-            ->json();
+            ->object();
 
-        return Vehicle::fromApi($response['vehicle']);
+        return new Models\Stock($response);
     }
 
     public function getFeatures(string $registration): FeatureCollection
@@ -117,6 +115,7 @@ class Client
         return Stock::fromApi($response);
     }
 
+    /** @return Collection<Models\Stock>|Models\Stock[] */
     public function listStock(array $filters = []): Collection
     {
         $response = $this->request()
@@ -133,10 +132,10 @@ class Client
                     // 'check'           => 'false',
                 ], $filters))
             ->throw()
-            ->json();
+            ->object();
 
-        return collect($response['results'])
-            ->map(fn ($item) => Stock::fromApi($item));
+        return collect($response->results)
+            ->map(fn ($item) => new Models\Stock($item));
     }
 
     public function getStockByRegistration(string $registration): Stock

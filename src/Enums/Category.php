@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Taz\AutoTraderStockClient\Enums;
 
-use Taz\AutoTraderStockClient\Casters\EnumCaster;
-
 /**
  * @method static self audioAndCommunications()
  * @method static self exterior()
@@ -20,23 +18,6 @@ use Taz\AutoTraderStockClient\Casters\EnumCaster;
  * @method static self other()
  * @method static self servicingAndWarranty()
  */
-class Category extends EnumCaster
+class Category extends Enum
 {
-    public static function labels(): array
-    {
-        return [
-            'audioAndCommunications' => 'Audio and Communications',
-            'exterior'               => 'Exterior',
-            'driversAssistance'      => 'Assistance',
-            'performance'            => 'Performance',
-            'interior'               => 'Interior',
-            'safetyAndSecurity'      => 'Safety and Security',
-            'illumination'           => 'Illumination',
-            'paint'                  => 'Paint',
-            'upholstery'             => 'Upholstery',
-            'comfort'                => 'Comfort',
-            'other'                  => 'Other',
-            'servicingAndWarranty'   => 'Servicing and Warranty',
-        ];
-    }
 }
