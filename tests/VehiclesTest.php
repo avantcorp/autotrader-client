@@ -21,5 +21,5 @@ test('get with features', function (): void {
         ->toBeIterable();
 
     $stock->features
-        ->each(fn (Models\Feature $feature) => expect($feature->type)->toBeInstanceOf(Type::class));
+        ->each(fn (Models\Stock\Feature $feature) => expect($feature->type)->toBeInstanceOf(Type::class));
 });

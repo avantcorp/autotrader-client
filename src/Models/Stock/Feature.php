@@ -2,27 +2,28 @@
 
 declare(strict_types=1);
 
-namespace Taz\AutoTraderStockClient\Models;
+namespace Taz\AutoTraderStockClient\Models\Stock;
 
 use Spatie\Enum\Laravel\HasEnums;
 use Taz\AutoTraderStockClient\Enums\Category;
 use Taz\AutoTraderStockClient\Enums\Type;
+use Taz\AutoTraderStockClient\Support\Model;
 
 /**
- * @property string   $name
- * @property string   $genericName
- * @property Type     $type
- * @property Category $category
  * @property float    $basicPrice
- * @property float    $vatPrice
+ * @property Category $category
  * @property bool     $factoryFitted
+ * @property string   $genericName
+ * @property string   $name
+ * @property Type     $type
+ * @property float    $vatPrice
  */
 class Feature extends Model
 {
     use HasEnums;
 
     protected $enums = [
-        'type'     => Type::class,
         'category' => Category::class,
+        'type'     => Type::class,
     ];
 }

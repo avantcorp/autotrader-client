@@ -8,9 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
-use Taz\AutoTraderStockClient\Collections\FeatureCollection;
-use Taz\AutoTraderStockClient\DTOs\Stock;
-use Taz\AutoTraderStockClient\DTOs\Vehicle;
+use Taz\AutoTraderStockClient\Models\Stock;
 
 class Client
 {
@@ -31,24 +29,21 @@ class Client
     private function token(): string
     {
         return cache()->lock(static::CACHE_KEY.'-lock')
-            ->block(10, function () {
-                return cache()->get(static::CACHE_KEY, function () {
-                    $tokenResponse = Http::baseUrl($this->baseUrl)
-                        ->asForm()
-                        ->post('authenticate', [
-                            'key'    => $this->key,
-                            'secret' => $this->secret,
-                        ])
-                        ->throw()
-                        ->object();
-
-                    return cache()->remember(
-                        static::CACHE_KEY,
-                        Carbon::parse($tokenResponse->expires)->subMinutes(5),
-                        fn () => $tokenResponse->access_token
-                    );
-                });
-            });
+            ->block(10, fn () => cache()->get(static::CACHE_KEY, fn () => with(
+                Http::baseUrl($this->baseUrl)
+                    ->asForm()
+                    ->post('authenticate', [
+                        'key'    => $this->key,
+                        'secret' => $this->secret,
+                    ])
+                    ->throw()
+                    ->object(),
+                fn ($response) => cache()->remember(
+                    static::CACHE_KEY,
+                    Carbon::parse($response->expires)->subMinutes(5),
+                    fn () => $response->access_token
+                )
+            )));
     }
 
     private function request(): PendingRequest
@@ -60,7 +55,7 @@ class Client
             ->withOptions(['query' => ['advertiserId' => $this->advertiserId]]);
     }
 
-    public function getVehicle(string $registration, iterable $with = []): Models\Stock
+    public function getVehicle(string $registration, iterable $with = []): Stock
     {
         $response = $this->request()
             ->get('/vehicles',
@@ -73,21 +68,7 @@ class Client
             ->throw()
             ->object();
 
-        return new Models\Stock($response);
-    }
-
-    public function getFeatures(string $registration): FeatureCollection
-    {
-        $response = $this->request()
-            ->get('/vehicles', [
-                'registration' => sanitize_registration($registration),
-                'features'     => 'true',
-                'vehicle'      => 'false',
-            ])
-            ->throw()
-            ->object();
-
-        return FeatureCollection::fromApi($response->features);
+        return new Stock($response);
     }
 
     public function createStock(Vehicle $vehicle): Stock
@@ -115,7 +96,7 @@ class Client
         return Stock::fromApi($response);
     }
 
-    /** @return Collection<Models\Stock>|Models\Stock[] */
+    /** @return Collection<Stock>|Stock[] */
     public function listStock(array $filters = []): Collection
     {
         $response = $this->request()
@@ -135,30 +116,30 @@ class Client
             ->object();
 
         return collect($response->results)
-            ->map(fn ($item) => new Models\Stock($item));
+            ->mapInto(Stock::class);
     }
 
-    public function getStockByRegistration(string $registration): Stock
+    public function getStockByRegistration(string $registration): ?Stock
     {
-        return $this->listStock([
-            'registration' => sanitize_registration($registration),
-        ])->first();
+        return $this
+            ->listStock(['registration' => sanitize_registration($registration)])
+            ->first();
     }
 
-    public function getStockByVin(string $vin): Stock
+    public function getStockByVin(string $vin): ?Stock
     {
-        return $this->listStock([
-            'vin' => $vin,
-        ])->first();
+        return $this
+            ->listStock(['vin' => $vin])
+            ->first();
     }
 
-    public function getStockById(string $id): Stock
+    public function getStockById(string $id): ?Stock
     {
         $response = $this->request()
             ->get("/stock/{$id}")
             ->throw()
             ->json();
 
-        return Stock::fromApi($response);
+        return new Stock($response);
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Taz\AutoTraderStockClient\Models;
+namespace Taz\AutoTraderStockClient\Support;
 
 use ArrayAccess;
 use Illuminate\Contracts\Database\Eloquent\Castable;
