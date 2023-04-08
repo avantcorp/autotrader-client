@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Taz\AutoTraderStockClient\Support;
+namespace Taz\AutoTraderStockClient\Models;
 
 use ArrayAccess;
 use Illuminate\Contracts\Database\Eloquent\Castable;
-use Illuminate\Contracts\Database\Eloquent\CastsInboundAttributes;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Database\Eloquent\Concerns\HasAttributes;
@@ -141,9 +140,15 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
         return 'Y-m-d H:i:s';
     }
 
-    public static function castUsing(): CastsInboundAttributes
+    public static function castUsing(): object
     {
-        return new class () implements CastsInboundAttributes {
+        return new class () {
+            public function get($model, $key, $value, $attributes): Model
+            {
+                $valueClass = $model->getCasts()[$key];
+                return new $valueClass($value);
+            }
+
             public function set($model, string $key, $value, array $attributes): array
             {
                 return [

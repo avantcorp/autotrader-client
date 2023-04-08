@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Taz\AutoTraderStockClient\Models\Stock;
+namespace Taz\AutoTraderStockClient\Models;
 
 use Carbon\Carbon;
-use Taz\AutoTraderStockClient\Support\Model;
 
 /**
  * @property Carbon $dateOnForecourt

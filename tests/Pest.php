@@ -13,7 +13,10 @@ declare(strict_types=1);
 |
 */
 
-uses(\Test\TestCase::class)->in(__DIR__);
+use Illuminate\Support\Collection;
+use Test\TestCase;
+
+uses(TestCase::class)->in(__DIR__);
 
 /*
 |--------------------------------------------------------------------------
@@ -26,8 +29,11 @@ uses(\Test\TestCase::class)->in(__DIR__);
 |
 */
 
-expect()->extend('toBeOne', function () {
-    return $this->toBe(1);
+expect()->extend('toBeCollectionOf', function (string $class) {
+    $this->toBeInstanceOf(Collection::class);
+    expect($this->value->every(fn ($item) => $item instanceof $class))->toBeTrue();
+
+    return $this;
 });
 
 /*

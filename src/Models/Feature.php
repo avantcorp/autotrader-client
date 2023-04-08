@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Taz\AutoTraderStockClient\Models\Stock;
+namespace Taz\AutoTraderStockClient\Models;
 
 use Spatie\Enum\Laravel\HasEnums;
 use Taz\AutoTraderStockClient\Enums\Category;
 use Taz\AutoTraderStockClient\Enums\Type;
-use Taz\AutoTraderStockClient\Support\Model;
 
 /**
  * @property float    $basicPrice

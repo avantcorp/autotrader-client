@@ -3,17 +3,18 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Collection;
-use Taz\AutoTraderStockClient\Models;
+use Taz\AutoTraderStockClient\Models\Stock;
 
 test('get stock list', function (): void {
-    $stock = $this->client->listStock();
+    $stockList = $this->client->listStock();
 
-    expect($stock)
+    expect($stockList)
         ->toBeInstanceOf(Collection::class)
-        ->and($stock->count())
+        ->toBeCollectionOf(Stock::class)
+        ->and($stockList->count())
         ->toBeGreaterThanOrEqual(1);
 
-    $stock->each(fn (Models\Stock $stock) => expect($stock->metadata->stockId)
+    $stockList->each(fn (Stock $stock) => expect($stock->metadata->stockId)
         ->not()->toBeNull());
 });
 

@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Taz\AutoTraderStockClient\Models\Stock\Vehicle;
-
-use Taz\AutoTraderStockClient\DTOs\DTO;
+namespace Taz\AutoTraderStockClient\Models;
 
 /**
  * @property string $bodyType
@@ -21,6 +19,6 @@ use Taz\AutoTraderStockClient\DTOs\DTO;
  * @property string $transmissionType
  * @property string $wheelbaseType
  */
-class Oem extends DTO
+class Oem extends Model
 {
 }

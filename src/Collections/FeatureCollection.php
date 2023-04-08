@@ -4,39 +4,31 @@ declare(strict_types=1);
 
 namespace Taz\AutoTraderStockClient\Collections;
 
-use Spatie\DataTransferObject\DataTransferObjectCollection;
-use Taz\AutoTraderStockClient\DTOs\Feature;
+use Illuminate\Support\Collection;
 use Taz\AutoTraderStockClient\Enums\Type;
+use Taz\AutoTraderStockClient\Models\Feature;
 
-/** @method Feature current */
-class FeatureCollection extends DataTransferObjectCollection
+class FeatureCollection extends Collection
 {
-    public static function fromApi(array $features): FeatureCollection
+    public function filterByType(Type $type): FeatureCollection
     {
-        return new static(array_map(fn ($data) => Feature::fromApi($data), $features));
+        return $this->filter(fn (Feature $feature) => $feature->type === $type);
     }
 
     public function standard(): FeatureCollection
     {
-        return new static(
-            ...collect($this->items())
-            ->filter(fn (Feature $feature) => $feature->type === Type::standard())
-        );
+        return $this->filterByType(Type::standard());
     }
 
     public function optional(): FeatureCollection
     {
-        return new static(
-            ...collect($this->items())
-            ->filter(fn (Feature $feature) => $feature->type === Type::optional())
-        );
+        return $this->filterByType(Type::optional());
     }
 
-    public function groupByCategory(): FeatureCollection
+    public function groupByCategory(): Collection
     {
-        return new static(
-            ...collect($this->items())
-            ->groupBy(fn (Feature $feature) => $feature->category->labels(), true)
-        );
+        return $this
+            ->groupBy(fn (Feature $feature) => $feature->category->getValue())
+            ->collect();
     }
 }

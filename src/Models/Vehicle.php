@@ -2,10 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Taz\AutoTraderStockClient\Models\Stock;
-
-use Taz\AutoTraderStockClient\Models\Stock\Vehicle\Oem;
-use Taz\AutoTraderStockClient\Support\Model;
+namespace Taz\AutoTraderStockClient\Models;
 
 /**
  * @property int    $axles
