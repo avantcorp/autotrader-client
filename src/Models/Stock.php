@@ -9,14 +9,14 @@ use Taz\AutoTraderStockClient\Casts\Collection;
 /**
  * @property Adverts                                           $adverts
  * @property Vehicle                                           $vehicle
- * @property MetaData                                          $metadata
+ * @property Metadata                                          $metadata
  * @property \Illuminate\Support\Collection<Feature>|Feature[] $features
  */
 class Stock extends Model
 {
     protected $casts = [
         'vehicle'  => Vehicle::class,
-        'metadata' => MetaData::class,
+        'metadata' => Metadata::class,
         'features' => Collection::class.':'.Feature::class,
         'adverts'  => Adverts::class,
     ];

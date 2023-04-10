@@ -17,12 +17,12 @@ use Carbon\Carbon;
  * @property string $stockId
  * @property int    $versionNumber
  */
-class MetaData extends Model
+class Metadata extends Model
 {
     protected $casts = [
-        'dateOnForecourt'         => 'date',
-        'lastUpdated'             => 'datetime',
-        'lastUpdatedByAdvertiser' => 'datetime',
+        'dateOnForecourt'         => 'datetime:Y-m-d',
+        'lastUpdated'             => 'datetime:Y-m-d H:i:s',
+        'lastUpdatedByAdvertiser' => 'datetime:Y-m-d H:i:s',
         'versionNumber'           => 'int',
     ];
 }

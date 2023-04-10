@@ -33,7 +33,7 @@ class Client
                 Http::baseUrl($this->baseUrl)
                     ->asForm()
                     ->post('authenticate', [
-                        'key'    => $this->key,
+                        'key' => $this->key,
                         'secret' => $this->secret,
                     ])
                     ->throw()
@@ -71,29 +71,29 @@ class Client
         return new Stock($response);
     }
 
-    public function createStock(Vehicle $vehicle): Stock
+    public function createStock(Stock $stock): Stock
     {
+        $stock->metadata->externalStockReference = $stock->vehicle->registration;
+
         $response = $this->request()
-            ->post('/stock', [
-                'vehicle'  => $vehicle,
-                'metadata' => [
-                    'externalStockReference' => $vehicle->registration,
-                ],
-            ])
+            ->post('/stock', $stock->toArray())
             ->throw()
             ->json();
 
-        return Stock::fromApi($response);
+        return new Stock($response);
     }
 
-    public function updateVehicle(Stock $stock): Stock
+    public function updateStock(Stock $stock): Stock
     {
+        $stock->syncChanges();
+        $changes = $stock->getChanges();
         $response = $this->request()
-            ->patch("/stock/{$stock->metadata->stockId}", $stock->toArray())
+            ->patch("/stock/{$stock->metadata->stockId}", $changes)
             ->throw()
             ->json();
+        $stock->syncOriginal();
 
-        return Stock::fromApi($response);
+        return new Stock($response);
     }
 
     /** @return Collection<Stock>|Stock[] */

@@ -35,7 +35,7 @@ test('create and delete vehicle', function (): void {
         ->and($stock->metadata->lifecycleState)->not()->toBe('DELETED');
 
     $stock->metadata->lifecycleState = 'DELETED';
-    $stock = $this->client->updateVehicle($stock);
+    $stock = $this->client->updateStock($stock);
     expect($stock)->toBeInstanceOf(Stock::class)
         ->and($stock->metadata->lifecycleState)->toBe('DELETED');
 });

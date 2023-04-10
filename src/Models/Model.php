@@ -11,12 +11,16 @@ use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Database\Eloquent\Concerns\HasAttributes;
 use Illuminate\Database\Eloquent\Concerns\HidesAttributes;
 use Illuminate\Database\Eloquent\JsonEncodingException;
+use Illuminate\Support\Arr;
 use JsonSerializable;
 
 abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializable, Castable
 {
     use HasAttributes {
         getAttribute as __getAttribute;
+        getDirty as __getDirty;
+        syncChanges as __syncChanges;
+        syncOriginal as __syncOriginal;
     }
 
     use HidesAttributes;
@@ -151,12 +155,61 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
 
             public function set($model, string $key, $value, array $attributes): array
             {
+                $valueClass = $model->getCasts()[$key];
+
                 return [
-                    $key => $value instanceof $model
+                    $key => $value instanceof $valueClass
                         ? $value->toArray()
                         : (array)$value,
                 ];
             }
         };
+    }
+
+    public function syncChanges(): Model
+    {
+        foreach ($this->getCasts() as $key => $cast) {
+            if (is_subclass_of($cast, self::class)) {
+                $this->getAttribute($key)->syncChanges();
+            }
+        }
+
+        $this->changes = $this->getDirty();
+
+        return $this;
+    }
+
+    public function syncOriginal(): Model
+    {
+        foreach ($this->getCasts() as $key => $cast) {
+            if (is_subclass_of($cast, self::class)) {
+                $this->getAttribute($key)->syncOriginal();
+            }
+        }
+
+        $this->original = $this->getAttributes();
+
+        return $this;
+    }
+
+    public function getDirty(): array
+    {
+        $dirty = [];
+
+        foreach ($this->getAttributes() as $key => $value) {
+            if (is_subclass_of(Arr::get($this->getCasts(), $key), self::class)) {
+                if ($nestedDirty = $this->getAttribute($key)->getDirty()) {
+                    $dirty[$key] = $nestedDirty;
+                }
+
+                continue;
+            }
+
+            if (!$this->originalIsEquivalent($key)) {
+                $dirty[$key] = $value;
+            }
+        }
+
+        return $dirty;
     }
 }
