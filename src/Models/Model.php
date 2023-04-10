@@ -151,12 +151,11 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
         return new class () {
             public function get($model, $key, $value, $attributes): ?Model
             {
-                if (is_null($value)) {
-                    return null;
-                }
-
                 $valueClass = $model->getCasts()[$key];
-                return new $valueClass($value);
+
+                return !is_null($value)
+                    ? new $valueClass($value)
+                    : null;
             }
 
             public function set($model, string $key, $value, array $attributes): array
@@ -206,16 +205,10 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
             if (is_subclass_of(Arr::get($this->getCasts(), $key), self::class)) {
                 if (is_null($value) && !is_null($this->getOriginal($key))) {
                     $dirty[$key] = null;
-                    continue;
-                }
-                if ($nestedDirty = $this->getAttribute($key)->getDirty()) {
+                } elseif ($nestedDirty = $this->getAttribute($key)->getDirty()) {
                     $dirty[$key] = $nestedDirty;
                 }
-
-                continue;
-            }
-
-            if (!$this->originalIsEquivalent($key)) {
+            } elseif (!$this->originalIsEquivalent($key)) {
                 $dirty[$key] = $value;
             }
         }
