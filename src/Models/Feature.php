@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Taz\AutoTraderStockClient\Models;
 
-use Spatie\Enum\Laravel\HasEnums;
-use Taz\AutoTraderStockClient\Enums\Category;
-use Taz\AutoTraderStockClient\Enums\Type;
+use Taz\AutoTraderStockClient\Enums;
 
 /**
  * @property float    $basicPrice
@@ -19,10 +17,8 @@ use Taz\AutoTraderStockClient\Enums\Type;
  */
 class Feature extends Model
 {
-    use HasEnums;
-
-    protected $enums = [
-        'category' => Category::class,
-        'type'     => Type::class,
+    protected $casts = [
+        'category' => Enums\Category::class,
+        'type'     => Enums\Type::class,
     ];
 }

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Taz\AutoTraderStockClient\Enums;
 
-use Spatie\Enum\Enumerable;
-
-class Enum extends \Spatie\Enum\Enum
+class Enum extends \Spatie\Enum\Laravel\Enum
 {
-    public static function make($value): Enumerable
-    {
-        return parent::make(lcfirst(preg_replace('/\s/', '', ucwords($value))));
-    }
+    // public function __construct($value)
+    // {
+    //     $value = lcfirst(preg_replace('/\s/', '', ucwords($value)));
+    //
+    //     parent::__construct($value);
+    // }
 }

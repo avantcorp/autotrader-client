@@ -20,4 +20,21 @@ namespace Taz\AutoTraderStockClient\Enums;
  */
 class Category extends Enum
 {
+    public static function values(): array
+    {
+        return [
+            'audioAndCommunications' => 'Audio and Communications',
+            'exterior'               => 'Exterior',
+            'driversAssistance'      => 'Drivers Assistance',
+            'performance'            => 'Performance',
+            'interior'               => 'Interior',
+            'safetyAndSecurity'      => 'Safety and Security',
+            'illumination'           => 'Illumination',
+            'paint'                  => 'Paint',
+            'upholstery'             => 'Upholstery',
+            'comfort'                => 'Comfort',
+            'other'                  => 'Other',
+            'servicingAndWarranty'   => 'Servicing and Warranty',
+        ];
+    }
 }
