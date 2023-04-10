@@ -140,7 +140,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
         return 'Y-m-d H:i:s';
     }
 
-    public static function castUsing(): object
+    public static function castUsing(array $arguments): object
     {
         return new class () {
             public function get($model, $key, $value, $attributes): Model
