@@ -43,3 +43,14 @@ test('create and delete vehicle', function (): void {
 test('all stock DTOs', function (): void {
     $stock = $this->client->getStockByRegistration('KS17FOA');
 });
+
+test('delete all stock', function () {
+    $this->client->listStock(['lifecycleState' => 'FORECOURT'])
+        ->each(function (Stock $stock) {
+            $stock->metadata->lifecycleState = 'DELETED';
+            // $stock->adverts->retailAdverts->autotraderAdvert = 'NOT_PUBLISHED';
+            // $stock->adverts->retailAdverts->profileAdvert = 'NOT_PUBLISHED';
+            $this->client->updateStock($stock);
+            expect($stock->metadata->isDirty('lifecycleState'))->toBeFalse();
+        });
+});

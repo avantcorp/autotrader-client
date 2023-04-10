@@ -98,6 +98,8 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
             $this->isClassCastable($key)) {
             return $this->getAttributeValue($key);
         }
+
+        return null;
     }
 
     protected function transformModelValue($key, $value)
@@ -147,8 +149,12 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     public static function castUsing(array $arguments): object
     {
         return new class () {
-            public function get($model, $key, $value, $attributes): Model
+            public function get($model, $key, $value, $attributes): ?Model
             {
+                if (is_null($value)) {
+                    return null;
+                }
+
                 $valueClass = $model->getCasts()[$key];
                 return new $valueClass($value);
             }
@@ -170,7 +176,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     {
         foreach ($this->getCasts() as $key => $cast) {
             if (is_subclass_of($cast, self::class)) {
-                $this->getAttribute($key)->syncChanges();
+                $this->getAttribute($key)?->syncChanges();
             }
         }
 
@@ -183,7 +189,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     {
         foreach ($this->getCasts() as $key => $cast) {
             if (is_subclass_of($cast, self::class)) {
-                $this->getAttribute($key)->syncOriginal();
+                $this->getAttribute($key)?->syncOriginal();
             }
         }
 
@@ -198,6 +204,10 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
 
         foreach ($this->getAttributes() as $key => $value) {
             if (is_subclass_of(Arr::get($this->getCasts(), $key), self::class)) {
+                if (is_null($value) && !is_null($this->getOriginal($key))) {
+                    $dirty[$key] = null;
+                    continue;
+                }
                 if ($nestedDirty = $this->getAttribute($key)->getDirty()) {
                     $dirty[$key] = $nestedDirty;
                 }
