@@ -153,9 +153,11 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
             {
                 $valueClass = $model->getCasts()[$key];
 
-                return !is_null($value)
-                    ? new $valueClass($value)
-                    : null;
+                return new $valueClass($value);
+
+                // return !is_null($value)
+                //     ? new $valueClass($value)
+                //     : null;
             }
 
             public function set($model, string $key, $value, array $attributes): array

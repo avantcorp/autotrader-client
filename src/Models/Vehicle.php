@@ -59,6 +59,7 @@ namespace Taz\AutoTraderStockClient\Models;
  * @property string $make
  * @property int    $minimumKerbWeightKG
  * @property string $model
+ * @property int    $odometerReadingMiles
  * @property Oem    $oem
  * @property int    $owners
  * @property string $ownershipCondition
@@ -72,6 +73,7 @@ namespace Taz\AutoTraderStockClient\Models;
  * @property string $roofHeightType
  * @property int    $seats
  * @property string $sector
+ * @property string $serviceHistory
  * @property bool   $startStop
  * @property int    $strokeMM
  * @property string $style
@@ -122,6 +124,7 @@ class Vehicle extends Model
         'heightMM'                     => 'int',
         'lengthMM'                     => 'int',
         'minimumKerbWeightKG'          => 'int',
+        'odometerReadingMiles'         => 'int',
         'oem'                          => Oem::class,
         'owners'                       => 'int',
         'payloadHeightMM'              => 'int',
@@ -129,6 +132,7 @@ class Vehicle extends Model
         'payloadWeightKG'              => 'int',
         'payloadWidthMM'               => 'int',
         'seats'                        => 'int',
+        'serviceHistory'               => 'string',
         'strokeMM'                     => 'int',
         'topSpeedMPH'                  => 'int',
         'valves'                       => 'int',

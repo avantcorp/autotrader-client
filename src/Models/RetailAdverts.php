@@ -9,6 +9,9 @@ namespace Taz\AutoTraderStockClient\Models;
  * @property-read Price $totalPrice
  * @property Price      $adminFee
  * @property Price      $manufacturerRRP
+ * @property string     $attentionGrabber
+ * @property string     $description
+ * @property string     $description2
  */
 class RetailAdverts extends Model
 {

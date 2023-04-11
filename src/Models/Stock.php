@@ -11,6 +11,9 @@ use Taz\AutoTraderStockClient\Casts\Collection;
  * @property Vehicle                                           $vehicle
  * @property Metadata                                          $metadata
  * @property \Illuminate\Support\Collection<Feature>|Feature[] $features
+ * @property Location                                          $location
+ * @property Media                                             $media
+ * @property Checks                                            $checks
  */
 class Stock extends Model
 {
@@ -19,5 +22,8 @@ class Stock extends Model
         'metadata' => Metadata::class,
         'features' => Collection::class.':'.Feature::class,
         'adverts'  => Adverts::class,
+        'location' => Location::class,
+        'checks'   => Checks::class,
+        'media'   => Media::class,
     ];
 }
