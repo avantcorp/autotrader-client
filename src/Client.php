@@ -33,7 +33,7 @@ class Client
                 Http::baseUrl($this->baseUrl)
                     ->asForm()
                     ->post('authenticate', [
-                        'key' => $this->key,
+                        'key'    => $this->key,
                         'secret' => $this->secret,
                     ])
                     ->throw()
@@ -46,13 +46,18 @@ class Client
             )));
     }
 
-    private function request(): PendingRequest
+    public function baseRequest(): PendingRequest
     {
         return Http::baseUrl($this->baseUrl)
             ->withToken($this->token())
             ->acceptJson()
-            ->asJson()
             ->withOptions(['query' => ['advertiserId' => $this->advertiserId]]);
+    }
+
+    private function request(): PendingRequest
+    {
+        return $this->baseRequest()
+            ->asJson();
     }
 
     public function getVehicle(string $registration, iterable $with = []): Stock
@@ -141,5 +146,35 @@ class Client
             ->json();
 
         return new Stock($response);
+    }
+
+    public function createImageFromUrl(string $url): string
+    {
+        $content = Http::get($url)
+            ->throw()
+            ->body();
+
+        $tempFile = tempnam('/tmp', 'IMG');
+        file_put_contents($tempFile, $content);
+
+        return $this->createImageFromFile($tempFile);
+    }
+
+    public function createImageFromFile(string $path): string
+    {
+        $response = $this->baseRequest()
+            ->send('POST', '/images', [
+                'multipart' => [
+                    [
+                        'name'     => 'file',
+                        'contents' => file_get_contents($path),
+                    ],
+                ],
+            ]);
+
+        $responseStatus = $response->status();
+        $responseBody = $response->body();
+
+        return $response->imageId;
     }
 }
