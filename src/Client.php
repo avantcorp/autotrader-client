@@ -167,13 +167,12 @@ class Client
                 'multipart' => [
                     [
                         'name'     => 'file',
-                        'contents' => file_get_contents($path),
+                        'contents' => fopen($path, 'r'),
                     ],
                 ],
-            ]);
-
-        $responseStatus = $response->status();
-        $responseBody = $response->body();
+            ])
+            ->throw()
+            ->object();
 
         return $response->imageId;
     }
