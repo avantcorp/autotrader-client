@@ -13,6 +13,10 @@ namespace Taz\AutoTraderStockClient\Models;
  * @property string        $description
  * @property string        $description2
  * @property PublishStatus $autotraderAdvert
+ * @property PublishStatus $advertiserAdvert
+ * @property PublishStatus $locatorAdvert
+ * @property PublishStatus $exportAdvert
+ * @property PublishStatus $profileAdvert
  */
 class RetailAdverts extends Model
 {
@@ -22,5 +26,9 @@ class RetailAdverts extends Model
         'adminFee'         => Price::class,
         'manufacturerRRP'  => Price::class,
         'autotraderAdvert' => PublishStatus::class,
+        'advertiserAdvert' => PublishStatus::class,
+        'locatorAdvert'    => PublishStatus::class,
+        'exportAdvert'     => PublishStatus::class,
+        'profileAdvert'    => PublishStatus::class,
     ];
 }

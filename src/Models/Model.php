@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Concerns\HidesAttributes;
 use Illuminate\Database\Eloquent\JsonEncodingException;
 use Illuminate\Support\Arr;
 use JsonSerializable;
+use Taz\AutoTraderStockClient\Casts\Collection;
 
 abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializable, Castable
 {
@@ -21,6 +22,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
         getDirty as __getDirty;
         syncChanges as __syncChanges;
         syncOriginal as __syncOriginal;
+        originalIsEquivalent as __originalIsEquivalent;
     }
 
     use HidesAttributes;
@@ -30,6 +32,11 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
         $attributes ??= [];
         $this->fill($attributes);
         $this->syncOriginal();
+    }
+
+    public function originalIsEquivalent($key): bool
+    {
+        return $this->__originalIsEquivalent($key);
     }
 
     /** @return static */
@@ -204,8 +211,20 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
         $dirty = [];
 
         foreach ($this->getAttributes() as $key => $value) {
-            if (is_subclass_of(Arr::get($this->getCasts(), $key), self::class)) {
-                if (is_null($value) && !is_null($this->getOriginal($key))) {
+            $cast = Arr::get($this->getCasts(), $key, '');
+            $castParts = explode(':', $cast, 2);
+            $isCollection = reset($castParts) === Collection::class;
+            $castModel = array_pop($castParts);
+
+            if ($castModel && is_subclass_of($castModel, self::class)) {
+                if($isCollection){
+                    $changes = $this->getAttribute($key)
+                        ->map(fn($model) => $model->getDirty())
+                        ->filter();
+                    if($changes->isNotEmpty()){
+                        $dirty[$key] = $changes;
+                    }
+                } elseif (is_null($value) && !is_null($this->getOriginal($key))) {
                     $dirty[$key] = null;
                 } elseif ($nestedDirty = $this->getAttribute($key)->getDirty()) {
                     $dirty[$key] = $nestedDirty;

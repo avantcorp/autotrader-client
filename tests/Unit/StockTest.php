@@ -38,10 +38,14 @@ test('all stock DTOs', function (): void {
 test('delete all stock', function (): void {
     $this->client->listStock(['lifecycleState' => 'FORECOURT'])
         ->each(function (Stock $stock): void {
-            $stock->metadata->lifecycleState = 'DELETED';
-            // $stock->adverts->retailAdverts->autotraderAdvert = 'NOT_PUBLISHED';
-            // $stock->adverts->retailAdverts->profileAdvert = 'NOT_PUBLISHED';
-            $this->client->updateStock($stock);
+            $stock = $this->client->deleteStock($stock);
             expect($stock->metadata->isDirty('lifecycleState'))->toBeFalse();
         });
+});
+
+test('delete stock', function (): void {
+    $registration = 'YG69VHK';
+    $stock = $this->client->getStockByRegistration($registration);
+    $stock = $this->client->deleteStock($stock);
+    expect($stock->metadata->isDirty('lifecycleState'))->toBeFalse();
 });

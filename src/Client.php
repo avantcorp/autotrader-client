@@ -177,4 +177,18 @@ class Client
 
         return new Image($response);
     }
+
+    public function deleteStock(Stock $stock): Stock
+    {
+        $stock->metadata->lifecycleState = 'DELETED';
+
+        $stock->adverts->retailAdverts->autotraderAdvert->status = 'NOT_PUBLISHED';
+        $stock->adverts->retailAdverts->advertiserAdvert->status = 'NOT_PUBLISHED';
+        $stock->adverts->retailAdverts->locatorAdvert->status    = 'NOT_PUBLISHED';
+        $stock->adverts->retailAdverts->exportAdvert->status     = 'NOT_PUBLISHED';
+        $stock->adverts->retailAdverts->profileAdvert->status    = 'NOT_PUBLISHED';
+
+        return $this->updateStock($stock);
+
+    }
 }
