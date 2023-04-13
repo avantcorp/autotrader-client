@@ -217,15 +217,13 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
             $castModel = array_pop($castParts);
 
             if ($castModel && is_subclass_of($castModel, self::class)) {
-                if($isCollection){
-                    $changes = $this->getAttribute($key)
-                        ->map(fn($model) => $model->getDirty())
-                        ->filter();
-                    if($changes->isNotEmpty()){
-                        $dirty[$key] = $changes;
-                    }
-                } elseif (is_null($value) && !is_null($this->getOriginal($key))) {
+                if (is_null($value) && !is_null($this->getOriginal($key))) {
                     $dirty[$key] = null;
+                } elseif ($isCollection) {
+                    $this->getAttribute($key)
+                        ->map(fn ($model) => $model->getDirty())
+                        ->filter()
+                        ->whenNotEmpty(fn($changes) => $dirty[$key] = $changes);
                 } elseif ($nestedDirty = $this->getAttribute($key)->getDirty()) {
                     $dirty[$key] = $nestedDirty;
                 }

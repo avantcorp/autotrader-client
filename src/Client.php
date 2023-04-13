@@ -82,7 +82,7 @@ class Client
         $stock->metadata->externalStockReference = $stock->vehicle->registration;
 
         $response = $this->request()
-            ->post('/stock', $stock->toArray())
+            ->post('/stock', $stock->only(['vehicle', 'metadata']))
             ->throw()
             ->json();
 

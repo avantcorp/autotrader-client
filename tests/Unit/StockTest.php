@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @property \Taz\AutoTraderStockClient\Client $client
+ */
+
 declare(strict_types=1);
 
 use Taz\AutoTraderStockClient\Models\Stock;
@@ -20,8 +24,9 @@ test('create stock', function (): void {
 });
 
 test('create and delete vehicle', function (): void {
-    $vehicle = $this->client->getVehicle('GX65OKB');
-    $stock = $this->client->createStock($vehicle);
+    $stock = $this->client->getVehicle('EN67BNU');
+    $stock->adverts->retailAdverts->suppliedPrice->amountGBP = 100;
+    $stock = $this->client->createStock($stock);
     expect($stock)->toBeInstanceOf(Stock::class)
         ->and($stock->metadata->lifecycleState)->not()->toBe('DELETED');
 
