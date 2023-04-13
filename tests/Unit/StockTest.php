@@ -55,3 +55,11 @@ test('delete stock', function (): void {
     $stock = $this->client->deleteStock($stock);
     expect($stock->metadata->isDirty('lifecycleState'))->toBeFalse();
 });
+
+test('un publish stock', function (): void {
+    $registration = 'LM11AXN';
+    $stock = $this->client->getStockByRegistration($registration);
+    $stock = $this->client->unpublishStock($stock);
+    expect($stock)
+        ->isDirty('autotraderAdvert')->toBeFalse();
+});

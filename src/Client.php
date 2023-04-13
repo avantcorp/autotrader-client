@@ -184,11 +184,21 @@ class Client
 
         $stock->adverts->retailAdverts->autotraderAdvert->status = 'NOT_PUBLISHED';
         $stock->adverts->retailAdverts->advertiserAdvert->status = 'NOT_PUBLISHED';
-        $stock->adverts->retailAdverts->locatorAdvert->status    = 'NOT_PUBLISHED';
-        $stock->adverts->retailAdverts->exportAdvert->status     = 'NOT_PUBLISHED';
-        $stock->adverts->retailAdverts->profileAdvert->status    = 'NOT_PUBLISHED';
+        $stock->adverts->retailAdverts->locatorAdvert->status = 'NOT_PUBLISHED';
+        // $stock->adverts->retailAdverts->exportAdvert->status = 'NOT_PUBLISHED';
+        $stock->adverts->retailAdverts->profileAdvert->status = 'NOT_PUBLISHED';
 
         return $this->updateStock($stock);
+    }
 
+    public function unpublishStock(Stock $stock): Stock
+    {
+        $stock->adverts->retailAdverts->autotraderAdvert->status = 'NOT_PUBLISHED';
+        // $stock->adverts->retailAdverts->advertiserAdvert->status = 'NOT_PUBLISHED';
+        // $stock->adverts->retailAdverts->locatorAdvert->status = 'NOT_PUBLISHED';
+        // $stock->adverts->retailAdverts->exportAdvert->status = 'NOT_PUBLISHED';
+        // $stock->adverts->retailAdverts->profileAdvert->status = 'NOT_PUBLISHED';
+
+        return $this->updateStock($stock);
     }
 }
