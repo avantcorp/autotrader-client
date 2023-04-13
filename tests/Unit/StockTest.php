@@ -15,6 +15,7 @@ test('get stock list', function (): void {
         ->toBeCollectionOf(Stock::class)
         ->and($stockList->count())
         ->toBeGreaterThanOrEqual(1);
+
 });
 
 test('create stock', function (): void {
@@ -49,7 +50,7 @@ test('delete all stock', function (): void {
 });
 
 test('delete stock', function (): void {
-    $registration = 'YG69VHK';
+    $registration = 'LM11AXN';
     $stock = $this->client->getStockByRegistration($registration);
     $stock = $this->client->deleteStock($stock);
     expect($stock->metadata->isDirty('lifecycleState'))->toBeFalse();
