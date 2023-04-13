@@ -14,6 +14,6 @@ class Media extends Model
     protected $casts = [
         'video'  => Href::class,
         'spin'   => Href::class,
-        'images' => \Taz\AutoTraderStockClient\Casts\Collection::class.':'.Href::class,
+        'images' => \Taz\AutoTraderStockClient\Casts\Collection::class.':'.Image::class,
     ];
 }

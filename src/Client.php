@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
+use Taz\AutoTraderStockClient\Models\Image;
 use Taz\AutoTraderStockClient\Models\Stock;
 
 class Client
@@ -148,7 +149,7 @@ class Client
         return new Stock($response);
     }
 
-    public function createImageFromUrl(string $url): string
+    public function createImageFromUrl(string $url): Image
     {
         $content = Http::get($url)
             ->throw()
@@ -160,7 +161,7 @@ class Client
         return $this->createImageFromFile($tempFile);
     }
 
-    public function createImageFromFile(string $path): string
+    public function createImageFromFile(string $path): Image
     {
         $response = $this->baseRequest()
             ->send('POST', '/images', [
@@ -172,8 +173,8 @@ class Client
                 ],
             ])
             ->throw()
-            ->object();
+            ->json();
 
-        return $response->imageId;
+        return new Image($response);
     }
 }
