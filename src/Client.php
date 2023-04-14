@@ -103,6 +103,10 @@ class Client
     {
         $stock->syncChanges();
         $changes = $stock->getChanges();
+        if (empty($changes)) {
+            return $stock;
+        }
+
         $response = $this->request()
             ->patch("/stock/{$stock->metadata->stockId}", $changes)
             ->throw()
