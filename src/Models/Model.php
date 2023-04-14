@@ -221,12 +221,16 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
                     $dirty[$key] = null;
                 } elseif ($isCollection) {
                     $current = $this->getAttribute($key)
-                        ->map(fn ($model) => $model->getDirty())
-                        ->filter();
+                        ->map(fn ($model) => $model->toArray())
+                        ->filter()
+                        ->toArray();
 
-                    $original = $this->getOriginal($key);
+                    $original = $this->getOriginal($key)
+                        ->map(fn ($model) => $model->toArray())
+                        ->filter()
+                        ->toArray();
 
-                    if($current !== $original){
+                    if ($current !== $original) {
                         $dirty[$key] = $current;
                     }
                 } elseif ($nestedDirty = $this->getAttribute($key)->getDirty()) {
