@@ -3,8 +3,8 @@
 namespace Taz\AutoTraderStockClient\Enums;
 
 /**
- * @method static self NOT_PUBLISHED()
  * @method static self PUBLISHED()
+ * @method static self NOT_PUBLISHED()
  */
 
 class PublishStatus extends Enum

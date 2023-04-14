@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Taz\AutoTraderStockClient;
 
+
 use Carbon\Carbon;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Taz\AutoTraderStockClient\Models\Image;
 use Taz\AutoTraderStockClient\Models\Stock;
+use Taz\AutoTraderStockClient\Enums\LifecycleState;
+use Taz\AutoTraderStockClient\Enums\PublishStatus as PublishStatusEnum;
 
 class Client
 {
@@ -194,24 +197,24 @@ class Client
 
     public function deleteStock(Stock $stock): Stock
     {
-        $stock->metadata->lifecycleState = 'DELETED';
+        $stock->metadata->lifecycleState = LifecycleState::DELETED();
 
-        $stock->adverts->retailAdverts->autotraderAdvert->status = 'NOT_PUBLISHED';
-        $stock->adverts->retailAdverts->advertiserAdvert->status = 'NOT_PUBLISHED';
-        $stock->adverts->retailAdverts->locatorAdvert->status = 'NOT_PUBLISHED';
-        // $stock->adverts->retailAdverts->exportAdvert->status = 'NOT_PUBLISHED';
-        $stock->adverts->retailAdverts->profileAdvert->status = 'NOT_PUBLISHED';
+        $stock->adverts->retailAdverts->autotraderAdvert->status = PublishStatusEnum::NOT_PUBLISHED();
+        $stock->adverts->retailAdverts->advertiserAdvert->status = PublishStatusEnum::NOT_PUBLISHED();
+        $stock->adverts->retailAdverts->locatorAdvert->status = PublishStatusEnum::NOT_PUBLISHED();
+        // $stock->adverts->retailAdverts->exportAdvert->status = PublishStatusEnum::NOT_PUBLISHED();
+        $stock->adverts->retailAdverts->profileAdvert->status = PublishStatusEnum::NOT_PUBLISHED();
 
         return $this->updateStock($stock);
     }
 
     public function unpublishStock(Stock $stock): Stock
     {
-        $stock->adverts->retailAdverts->autotraderAdvert->status = 'NOT_PUBLISHED';
-        // $stock->adverts->retailAdverts->advertiserAdvert->status = 'NOT_PUBLISHED';
-        // $stock->adverts->retailAdverts->locatorAdvert->status = 'NOT_PUBLISHED';
-        // $stock->adverts->retailAdverts->exportAdvert->status = 'NOT_PUBLISHED';
-        // $stock->adverts->retailAdverts->profileAdvert->status = 'NOT_PUBLISHED';
+        $stock->adverts->retailAdverts->autotraderAdvert->status = PublishStatusEnum::NOT_PUBLISHED();
+        // $stock->adverts->retailAdverts->advertiserAdvert->status = PublishStatusEnum::NOT_PUBLISHED();
+        // $stock->adverts->retailAdverts->locatorAdvert->status = PublishStatusEnum::NOT_PUBLISHED();
+        // $stock->adverts->retailAdverts->exportAdvert->status = PublishStatusEnum::NOT_PUBLISHED();
+        // $stock->adverts->retailAdverts->profileAdvert->status = PublishStatusEnum::NOT_PUBLISHED();
 
         return $this->updateStock($stock);
     }

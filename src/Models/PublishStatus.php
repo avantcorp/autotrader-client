@@ -1,15 +1,15 @@
 <?php
 
 namespace Taz\AutoTraderStockClient\Models;
-use Taz\AutoTraderStockClient\Enums;
+
+use Taz\AutoTraderStockClient\Enums\PublishStatus as PublishStatusEnum;
 
 /**
- * @property string $status
- * @property PublishStatus publishStatus
+ * @property PublishStatusEnum $status
  */
 class PublishStatus extends Model
 {
     protected $casts = [
-        'publishStatus' => Enums\PublishStatus::class,
+        'status' => PublishStatusEnum::class,
     ];
 }
