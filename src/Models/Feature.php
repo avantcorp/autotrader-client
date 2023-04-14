@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Taz\AutoTraderStockClient\Models;
 
-use Taz\AutoTraderStockClient\Enums;
+use Taz\AutoTraderStockClient\Enums\Category;
+use Taz\AutoTraderStockClient\Enums\Type;
 
 /**
  * @property float    $basicPrice
@@ -18,7 +19,7 @@ use Taz\AutoTraderStockClient\Enums;
 class Feature extends Model
 {
     protected $casts = [
-        'category' => Enums\Category::class,
-        'type'     => Enums\Type::class,
+        'category' => Category::class,
+        'type'     => Type::class,
     ];
 }

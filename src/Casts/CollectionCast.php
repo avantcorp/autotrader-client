@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Taz\AutoTraderStockClient\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
+use Illuminate\Support\Collection;
 
-class Collection implements CastsAttributes
+class CollectionCast implements CastsAttributes
 {
     protected string $model;
 
@@ -15,7 +16,7 @@ class Collection implements CastsAttributes
         $this->model = $model;
     }
 
-    public function get($model, string $key, $value, array $attributes): \Illuminate\Support\Collection
+    public function get($model, string $key, $value, array $attributes): Collection
     {
         return collect($value)
             ->map(fn ($item) => new $this->model($item));

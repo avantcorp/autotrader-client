@@ -17,18 +17,18 @@ class FeatureCollection extends Collection
 
     public function standard(): FeatureCollection
     {
-        return $this->filterByType(Type::standard());
+        return $this->filterByType(Type::Standard());
     }
 
     public function optional(): FeatureCollection
     {
-        return $this->filterByType(Type::optional());
+        return $this->filterByType(Type::Optional());
     }
 
     public function groupByCategory(): Collection
     {
         return $this
-            ->groupBy(fn (Feature $feature) => $feature->category->getValue())
+            ->groupBy(fn (Feature $feature) => $feature->category->value)
             ->collect();
     }
 }

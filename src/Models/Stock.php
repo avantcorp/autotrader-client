@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Taz\AutoTraderStockClient\Models;
 
-use Taz\AutoTraderStockClient\Casts\Collection;
+use Taz\AutoTraderStockClient\Casts\CollectionCast;
 
 /**
  * @property Adverts                                           $adverts
@@ -20,10 +20,10 @@ class Stock extends Model
     protected $casts = [
         'vehicle'  => Vehicle::class,
         'metadata' => Metadata::class,
-        'features' => Collection::class.':'.Feature::class,
+        'features' => CollectionCast::class.':'.Feature::class,
         'adverts'  => Adverts::class,
         'location' => Location::class,
         'checks'   => Checks::class,
-        'media'   => Media::class,
+        'media'    => Media::class,
     ];
 }

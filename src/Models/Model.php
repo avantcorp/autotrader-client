@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Concerns\HidesAttributes;
 use Illuminate\Database\Eloquent\JsonEncodingException;
 use Illuminate\Support\Arr;
 use JsonSerializable;
-use Taz\AutoTraderStockClient\Casts\Collection;
+use Taz\AutoTraderStockClient\Casts\CollectionCast;
 
 abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializable, Castable
 {
@@ -213,7 +213,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
         foreach ($this->getAttributes() as $key => $value) {
             $cast = Arr::get($this->getCasts(), $key, '');
             $castParts = explode(':', $cast, 2);
-            $isCollection = reset($castParts) === Collection::class;
+            $isCollection = reset($castParts) === CollectionCast::class;
             $castModel = array_pop($castParts);
 
             if ($castModel && is_subclass_of($castModel, self::class)) {

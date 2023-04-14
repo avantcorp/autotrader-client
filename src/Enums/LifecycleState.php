@@ -2,6 +2,8 @@
 
 namespace Taz\AutoTraderStockClient\Enums;
 
+use Spatie\Enum\Laravel\Enum;
+
 /**
  * @method static self DUE_IN()
  * @method static self FORECOURT()
@@ -9,7 +11,6 @@ namespace Taz\AutoTraderStockClient\Enums;
  * @method static self WASTEBIN()
  * @method static self DELETED()
  */
-
 class LifecycleState extends Enum
 {
 }
