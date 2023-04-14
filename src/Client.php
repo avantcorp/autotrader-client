@@ -77,6 +77,16 @@ class Client
         return new Stock($response);
     }
 
+    public function getValuation(Stock $stock): Stock
+    {
+        $response = $this->request()
+            ->post('/valuations', $stock->only(['vehicle']))
+            ->throw()
+            ->object();
+
+        return new Stock($response);
+    }
+
     public function createStock(Stock $stock): Stock
     {
         $stock->metadata->externalStockReference = $stock->vehicle->registration;

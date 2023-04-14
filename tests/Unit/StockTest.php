@@ -63,3 +63,11 @@ test('un publish stock', function (): void {
     expect($stock)
         ->isDirty('autotraderAdvert')->toBeFalse();
 });
+
+test('get vehicle valuation', function (): void {
+    $stock = $this->client->getVehicle('LM11AXN');
+    //$stock = $this->client->getValuation($stock);
+
+    dd($stock);
+
+});
