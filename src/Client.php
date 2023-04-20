@@ -31,7 +31,8 @@ class Client
 
     private function token(): string
     {
-        return cache()->lock(static::CACHE_KEY.'-lock')
+        return cache()
+            ->lock(static::CACHE_KEY.'-lock')
             ->block(10, fn () => cache()->get(static::CACHE_KEY, fn () => with(
                 Http::baseUrl($this->baseUrl)
                     ->asForm()
@@ -94,7 +95,7 @@ class Client
         $stock->metadata->externalStockReference = $stock->vehicle->registration;
 
         $response = $this->request()
-            ->post('/stock', $stock->only(['vehicle', 'metadata']))
+            ->post('/stock', $stock->only(['vehicle', 'metadata', 'features']))
             ->throw()
             ->json();
 
