@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Taz\AutoTraderStockClient\Models;
 
+use Taz\AutoTraderStockClient\Enums\VatStatus;
+
 /**
  * @property Price         $suppliedPrice
  * @property-read Price    $totalPrice
@@ -17,6 +19,7 @@ namespace Taz\AutoTraderStockClient\Models;
  * @property PublishStatus $locatorAdvert
  * @property PublishStatus $exportAdvert
  * @property PublishStatus $profileAdvert
+ * @property VatStatus     $vatStatus
  */
 class RetailAdverts extends Model
 {
@@ -30,5 +33,6 @@ class RetailAdverts extends Model
         'locatorAdvert'    => PublishStatus::class,
         'exportAdvert'     => PublishStatus::class,
         'profileAdvert'    => PublishStatus::class,
+        'vatStatus'        => VatStatus::class,
     ];
 }
