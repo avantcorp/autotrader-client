@@ -88,6 +88,7 @@ namespace Taz\AutoTraderStockClient\Models;
  * @property int    $wheelbaseMM
  * @property string $wheelbaseType
  * @property int    $widthMM
+ * @property int    $yearOfManufacture
  * @property float  $zeroToOneHundredKMPHSeconds
  * @property float  $zeroToSixtyMPHSeconds
  */

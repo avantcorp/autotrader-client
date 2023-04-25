@@ -3,7 +3,7 @@
 namespace Taz\AutoTraderStockClient\Models;
 
 /**
- * @property string $imagesId
+ * @property string $imageId
  * @property string $href
  */
 class Image extends Model { }
