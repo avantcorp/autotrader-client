@@ -14,6 +14,7 @@ use Taz\AutoTraderStockClient\Casts\CollectionCast;
  * @property Location $location
  * @property Media $media
  * @property Checks $checks
+ * @property \Illuminate\Support\Collection<Message>|Message[] $messages
  */
 class Stock extends Model
 {
