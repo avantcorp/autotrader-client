@@ -7,13 +7,13 @@ namespace Taz\AutoTraderStockClient\Models;
 use Taz\AutoTraderStockClient\Casts\CollectionCast;
 
 /**
- * @property Adverts                                           $adverts
- * @property Vehicle                                           $vehicle
- * @property Metadata                                          $metadata
+ * @property Adverts $adverts
+ * @property Vehicle $vehicle
+ * @property Metadata $metadata
  * @property \Illuminate\Support\Collection<Feature>|Feature[] $features
- * @property Location                                          $location
- * @property Media                                             $media
- * @property Checks                                            $checks
+ * @property Location $location
+ * @property Media $media
+ * @property Checks $checks
  */
 class Stock extends Model
 {
@@ -25,5 +25,6 @@ class Stock extends Model
         'location' => Location::class,
         'checks'   => Checks::class,
         'media'    => Media::class,
+        'messages' => CollectionCast::class.':'.Message::class,
     ];
 }
