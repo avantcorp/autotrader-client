@@ -33,6 +33,6 @@ class RetailAdverts extends Model
         'locatorAdvert'    => PublishStatus::class,
         'exportAdvert'     => PublishStatus::class,
         'profileAdvert'    => PublishStatus::class,
-        'vatStatus'        => VatStatus::class,
+        'vatStatus'        => VatStatus::class.':nullable',
     ];
 }
