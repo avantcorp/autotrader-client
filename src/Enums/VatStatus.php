@@ -4,21 +4,9 @@ declare(strict_types=1);
 
 namespace Taz\AutoTraderStockClient\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
-/**
- * @method static self IncVat()
- * @method static self ExVat()
- * @method static self NoVat()
- */
-class VatStatus extends Enum
+enum VatStatus: string
 {
-    public static function values(): array
-    {
-        return [
-            'IncVat' => 'Inc VAT',
-            'ExVat'  => 'Ex VAT',
-            'NoVat'  => 'No VAT',
-        ];
-    }
+    case IncVat = 'Inc VAT';
+    case ExVat = 'Ex VAT';
+    case NoVat = 'No VAT';
 }

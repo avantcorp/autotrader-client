@@ -2,13 +2,9 @@
 
 namespace Taz\AutoTraderStockClient\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
-/**
- * @method static self PUBLISHED()
- * @method static self NOT_PUBLISHED()
- * @method static self REJECTED()
- */
-class PublishStatus extends Enum
+enum PublishStatus: string
 {
+    case Published = 'PUBLISHED';
+    case NotPublished = 'NOT_PUBLISHED';
+    case Rejected = 'REJECTED';
 }

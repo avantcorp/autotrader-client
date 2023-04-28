@@ -4,12 +4,8 @@ declare(strict_types=1);
 
 namespace Taz\AutoTraderStockClient\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
-/**
- * @method static self Standard()
- * @method static self Optional()
- */
-class Type extends Enum
+enum Type:string
 {
+    case Standard = 'Standard';
+    case Optional = 'Optional';
 }

@@ -19,7 +19,7 @@ use Taz\AutoTraderStockClient\Enums\Type;
 class Feature extends Model
 {
     protected $casts = [
-        'category' => Category::class.':nullable',
+        'category' => Category::class,
         'type'     => Type::class,
     ];
 }

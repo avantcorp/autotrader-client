@@ -4,39 +4,18 @@ declare(strict_types=1);
 
 namespace Taz\AutoTraderStockClient\Enums;
 
-use Spatie\Enum\Laravel\Enum;
-
-/**
- * @method static self audioAndCommunications()
- * @method static self exterior()
- * @method static self driversAssistance()
- * @method static self performance()
- * @method static self interior()
- * @method static self safetyAndSecurity()
- * @method static self illumination()
- * @method static self paint()
- * @method static self upholstery()
- * @method static self comfort()
- * @method static self other()
- * @method static self servicingAndWarranty()
- */
-class Category extends Enum
+enum Category: string
 {
-    public static function values(): array
-    {
-        return [
-            'audioAndCommunications' => 'Audio and Communications',
-            'exterior'               => 'Exterior',
-            'driversAssistance'      => 'Drivers Assistance',
-            'performance'            => 'Performance',
-            'interior'               => 'Interior',
-            'safetyAndSecurity'      => 'Safety and Security',
-            'illumination'           => 'Illumination',
-            'paint'                  => 'Paint',
-            'upholstery'             => 'Upholstery',
-            'comfort'                => 'Comfort',
-            'other'                  => 'Other',
-            'servicingAndWarranty'   => 'Servicing and Warranty',
-        ];
-    }
+    case AudioAndCommunications = 'Audio and Communications';
+    case Exterior = 'Exterior';
+    case DriversAssistance = 'Drivers Assistance';
+    case Performance = 'Performance';
+    case Interior = 'Interior';
+    case SafetyAndSecurity = 'Safety and Security';
+    case Illumination = 'Illumination';
+    case Paint = 'Paint';
+    case Upholstery = 'Upholstery';
+    case Comfort = 'Comfort';
+    case Other = 'Other';
+    case ServicingAndWarranty = 'Servicing and Warranty';
 }

@@ -6,8 +6,11 @@ namespace Taz\AutoTraderStockClient;
 
 use Carbon\Carbon;
 use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\Response;
 use Taz\AutoTraderStockClient\Enums\LifecycleState;
 use Taz\AutoTraderStockClient\Enums\PublishStatus;
 use Taz\AutoTraderStockClient\Models\Image;
@@ -186,20 +189,37 @@ class Client
 
     public function deleteStock(Stock $stock): Stock
     {
-        $stock->metadata->lifecycleState = LifecycleState::DELETED();
+        $stock->metadata->lifecycleState = LifecycleState::Deleted;
 
-        $stock->adverts->retailAdverts->autotraderAdvert->status = PublishStatus::NOT_PUBLISHED();
-        $stock->adverts->retailAdverts->advertiserAdvert->status = PublishStatus::NOT_PUBLISHED();
-        $stock->adverts->retailAdverts->locatorAdvert->status = PublishStatus::NOT_PUBLISHED();
-        $stock->adverts->retailAdverts->profileAdvert->status = PublishStatus::NOT_PUBLISHED();
+        $stock->adverts->retailAdverts->autotraderAdvert->status = PublishStatus::NotPublished;
+        $stock->adverts->retailAdverts->advertiserAdvert->status = PublishStatus::NotPublished;
+        $stock->adverts->retailAdverts->locatorAdvert->status = PublishStatus::NotPublished;
+        $stock->adverts->retailAdverts->profileAdvert->status = PublishStatus::NotPublished;
 
         return $this->updateStock($stock);
     }
 
     public function unpublishStock(Stock $stock): Stock
     {
-        $stock->adverts->retailAdverts->autotraderAdvert->status = PublishStatus::NOT_PUBLISHED();
+        $stock->adverts->retailAdverts->autotraderAdvert->status = PublishStatus::NotPublished;
 
         return $this->updateStock($stock);
+    }
+
+    public function createOrUpdateStock(Stock $stock)
+    {
+        try {
+            return $this->createStock($stock);
+        } catch (RequestException $exception) {
+            if ($exception->response->status() === Response::HTTP_CONFLICT) {
+                $errorMessage = collect($exception->response->object()->messages ?? [])->first()?->message;
+                $stockId = Str::of($errorMessage)->match('/\w{32}$/');
+                $stock->metadata->stockId = $stockId;
+
+                return $this->updateStock($stock);
+            }
+
+            throw $exception;
+        }
     }
 }
