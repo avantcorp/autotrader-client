@@ -95,8 +95,6 @@ class Client
 
     public function createStock(Stock $stock): Stock
     {
-        $stock->metadata->externalStockReference = $stock->vehicle->registration;
-
         $response = $this->request()
             ->post('/stock', $stock->only(['vehicle', 'metadata', 'features']))
             ->throw()
