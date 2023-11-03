@@ -9,4 +9,7 @@ namespace Taz\AutoTraderStockClient\Models;
  */
 class V5CS extends Model
 {
+    protected $casts = [
+        'issuedDate' => 'date',
+    ];
 }

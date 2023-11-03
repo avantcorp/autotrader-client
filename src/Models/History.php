@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Taz\AutoTraderStockClient\Models;
 
+use Taz\AutoTraderStockClient\Casts\CollectionCast;
+
 /**
  * @property bool          $exported
  * @property bool          $imported
@@ -18,10 +20,10 @@ class History extends Model
     protected $casts = [
         'exported'       => 'bool',
         'imported'       => 'bool',
-        'keeperChanges'  => keeperChanges::class,
+        'keeperChanges'  => CollectionCast::class.':'.keeperChanges::class,
         'previousOwners' => 'int',
         'scrapped'       => 'bool',
         'stolen'         => 'bool',
-        'v5cs'           => V5CS::class,
+        'v5cs'           => CollectionCast::class.':'.V5CS::class,
     ];
 }
