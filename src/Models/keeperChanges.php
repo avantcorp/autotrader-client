@@ -9,7 +9,7 @@ use Illuminate\Support\Carbon;
 /**
  * @property Carbon $dateOfLastKeeper
  */
-class keeperChanged extends Model
+class keeperChanges extends Model
 {
     protected $casts = [
         'dateOfLastKeeper' => Carbon::class,

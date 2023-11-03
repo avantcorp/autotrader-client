@@ -7,7 +7,7 @@ namespace Taz\AutoTraderStockClient\Models;
 /**
  * @property bool          $exported
  * @property bool          $imported
- * @property keeperChanged $keeperChanged
+ * @property keeperChanges $keeperChanged
  * @property int           $previousOwners
  * @property bool          $scrapped
  * @property bool          $stolen
@@ -18,7 +18,7 @@ class History extends Model
     protected $casts = [
         'exported'       => 'int',
         'imported'       => 'float',
-        'keeperChanged'  => keeperChanged::class,
+        'keeperChanges'  => keeperChanges::class,
         'previousOwners' => 'int',
         'scrapped'       => 'int',
         'stolen'         => 'int',
