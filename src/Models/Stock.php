@@ -29,7 +29,7 @@ class Stock extends Model
         'checks'   => Checks::class,
         'media'    => Media::class,
         'history'  => History::class,
-        'motTests' => MotTest::class,
-        'messages' => CollectionCast::class.':'.Message::class,
+        'motTests' => CollectionCast::class.':'.MotTest::class,
+        'messages' => CollectionCast::class.':'.CollectionCast::class.':'.Message::class,
     ];
 }

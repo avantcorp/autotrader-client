@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Taz\AutoTraderStockClient\Models;
 
+use Taz\AutoTraderStockClient\Casts\CollectionCast;
+
 /**
  * @property string        $completedDate
  * @property string        $expiryDate
@@ -16,7 +18,9 @@ namespace Taz\AutoTraderStockClient\Models;
 class MotTest extends Model
 {
     protected $casts = [
+        'completedDate'  => 'datetime',
+        'expiryDate'     => 'date',
         'odometerValue'  => 'int',
-        'rfrAndComments' => RfrAndComment::class,
+        'rfrAndComments' => CollectionCast::class.':'.RfrAndComment::class,
     ];
 }
