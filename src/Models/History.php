@@ -16,12 +16,12 @@ namespace Taz\AutoTraderStockClient\Models;
 class History extends Model
 {
     protected $casts = [
-        'exported'       => 'int',
-        'imported'       => 'float',
+        'exported'       => 'bool',
+        'imported'       => 'bool',
         'keeperChanges'  => keeperChanges::class,
         'previousOwners' => 'int',
-        'scrapped'       => 'int',
-        'stolen'         => 'int',
+        'scrapped'       => 'bool',
+        'stolen'         => 'bool',
         'v5cs'           => V5CS::class,
     ];
 }
