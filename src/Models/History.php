@@ -7,7 +7,7 @@ namespace Taz\AutoTraderStockClient\Models;
 /**
  * @property bool          $exported
  * @property bool          $imported
- * @property keeperChanges $keeperChanged
+ * @property keeperChanges $keeperChanges
  * @property int           $previousOwners
  * @property bool          $scrapped
  * @property bool          $stolen
