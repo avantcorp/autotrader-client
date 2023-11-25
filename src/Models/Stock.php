@@ -30,6 +30,6 @@ class Stock extends Model
         'media'    => Media::class,
         'history'  => History::class,
         'motTests' => CollectionCast::class.':'.MotTest::class,
-        'messages' => CollectionCast::class.':'.CollectionCast::class.':'.Message::class,
+        'messages' => CollectionCast::class.':'.Message::class,
     ];
 }
