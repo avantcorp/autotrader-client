@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 use Taz\AutoTraderStockClient\Enums\LifecycleState;
 use Taz\AutoTraderStockClient\Enums\PublishStatus;
+use Taz\AutoTraderStockClient\Enums\With;
 use Taz\AutoTraderStockClient\Models\Image;
 use Taz\AutoTraderStockClient\Models\Stock;
 
@@ -67,14 +68,18 @@ class Client
             ->asJson();
     }
 
-    public function getVehicle(string $registration, iterable $with = []): Stock
+    /** @param With[]|Collection<With> $with */
+    public function getVehicle(string $registration, iterable $with = [], iterable $query = []): Stock
     {
         $response = $this->request()
             ->get('/vehicles',
                 array_merge(
-                    ['registration' => sanitize_registration($registration),],
+                    [
+                        'registration' => sanitize_registration($registration),
+                        ...$query,
+                    ],
                     Collection::wrap($with)
-                        ->mapWithKeys(fn ($option) => [$option => 'true'])
+                        ->mapWithKeys(fn (With $option) => [$option->value => 'true'])
                         ->toArray()
                 ))
             ->throw()
