@@ -98,6 +98,22 @@ class Client
         return new Stock($response);
     }
 
+    public function getVehicleMetrics(Stock $stock, int $mileage): Stock
+    {
+        $response = $this->request()
+            ->post('/vehicle-metrics', [
+                'vehicle' => [
+                    'derivativeId'          => $stock->vehicle->derivativeId,
+                    'firstRegistrationDate' => $stock->vehicle->firstRegistrationDate,
+                    'odometerReadingMiles'  => $mileage,
+                ],
+            ])
+            ->throw()
+            ->object();
+
+        return new Stock($response);
+    }
+
     public function createStock(Stock $stock): Stock
     {
         $stock->metadata->externalStockReference = $stock->vehicle->registration;
