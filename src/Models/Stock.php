@@ -20,6 +20,7 @@ use Taz\AutoTraderStockClient\Casts\CollectionCast;
  * @property Collection<Message>|Message[] $messages
  * @property VehicleMetrics                $vehicleMetrics
  * @property Links                         $links
+ * @property Valuations                    $valuations
  */
 class Stock extends Model
 {
@@ -36,5 +37,6 @@ class Stock extends Model
         'messages'       => CollectionCast::class.':'.Message::class,
         'vehicleMetrics' => VehicleMetrics::class,
         'links'          => Links::class,
+        'valuations'     => Valuations::class,
     ];
 }
