@@ -1,0 +1,17 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Taz\AutoTraderStockClient\Models;
+
+/**
+ * @property Vehicle        $valuations
+ * @property VehicleMetrics $vehicleMetrics
+ */
+class Valuation extends Model
+{
+    protected $casts = [
+        'valuations'     => Vehicle::class,
+        'vehicleMetrics' => VehicleMetrics::class,
+    ];
+}

@@ -16,6 +16,7 @@ use Taz\AutoTraderStockClient\Enums\PublishStatus;
 use Taz\AutoTraderStockClient\Enums\With;
 use Taz\AutoTraderStockClient\Models\Image;
 use Taz\AutoTraderStockClient\Models\Stock;
+use Taz\AutoTraderStockClient\Models\Valuation;
 
 class Client
 {
@@ -98,7 +99,7 @@ class Client
         return new Stock($response);
     }
 
-    public function getVehicleMetrics(Stock $stock, int $mileage): Stock
+    public function getVehicleMetrics(Stock $stock, int $mileage): Valuation
     {
         $response = $this->request()
             ->post('/vehicle-metrics', [
@@ -111,7 +112,7 @@ class Client
             ->throw()
             ->object();
 
-        return new Stock($response);
+        return new Valuation($response);
     }
 
     public function createStock(Stock $stock): Stock
