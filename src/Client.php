@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Taz\AutoTraderStockClient\Enums\LifecycleState;
 use Taz\AutoTraderStockClient\Enums\PublishStatus;
 use Taz\AutoTraderStockClient\Enums\With;
+use Taz\AutoTraderStockClient\Models\Competitors;
 use Taz\AutoTraderStockClient\Models\Image;
 use Taz\AutoTraderStockClient\Models\Stock;
 use Taz\AutoTraderStockClient\Models\Valuation;
@@ -113,6 +114,20 @@ class Client
             ->object();
 
         return new Valuation($response);
+    }
+
+    public function getCompetitors(string $href, array $query): Competitors
+    {
+        $response = $this->request()
+            ->get($href,
+                collect($query)
+                    ->put('advertiserId', $this->advertiserId)
+                    ->toArray()
+            )
+            ->throw()
+            ->object();
+
+        return new Competitors($response);
     }
 
     public function createStock(Stock $stock): Stock
