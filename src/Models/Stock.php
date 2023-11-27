@@ -8,18 +8,18 @@ use Illuminate\Support\Collection;
 use Taz\AutoTraderStockClient\Casts\CollectionCast;
 
 /**
- * @property Adverts                                           $adverts
- * @property Vehicle                                           $vehicle
- * @property Metadata                                          $metadata
+ * @property Adverts                       $adverts
+ * @property Vehicle                       $vehicle
+ * @property Metadata                      $metadata
  * @property Collection<Feature>|Feature[] $features
- * @property Location                                          $location
- * @property Media                                             $media
- * @property Checks                                            $checks
- * @property History                                           $history
- * @property MotTest                                           $motTests
+ * @property Location                      $location
+ * @property Media                         $media
+ * @property Checks                        $checks
+ * @property History                       $history
+ * @property MotTest                       $motTests
  * @property Collection<Message>|Message[] $messages
- * @property VehicleMetrics                                    $vehicleMetrics
- * @property Links                                             $links
+ * @property VehicleMetrics                $vehicleMetrics
+ * @property Links                         $links
  */
 class Stock extends Model
 {

@@ -10,6 +10,6 @@ namespace Taz\AutoTraderStockClient\Models;
 class keeperChanges extends Model
 {
     protected $casts = [
-      'dateOfLastKeeper' => 'date',
+        'dateOfLastKeeper' => 'date',
     ];
 }

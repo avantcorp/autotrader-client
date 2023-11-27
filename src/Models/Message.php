@@ -7,8 +7,8 @@ namespace Taz\AutoTraderStockClient\Models;
 use Taz\AutoTraderStockClient\Enums\MessageType;
 
 /**
- * @property string $feature
- * @property string $message
+ * @property string      $feature
+ * @property string      $message
  * @property MessageType $type
  */
 class Message extends Model
