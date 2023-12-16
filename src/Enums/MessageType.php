@@ -8,5 +8,6 @@ enum MessageType: string
 {
     case Info = 'INFO';
     case Error = 'ERROR';
+    case Warning = 'WARNING';
 }
 
