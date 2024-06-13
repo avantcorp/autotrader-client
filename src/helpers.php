@@ -13,7 +13,7 @@ if (!function_exists('sanitize_registration')) {
 
         throw_unless(
             2 <= strlen($registration) && strlen($registration) <= 7,
-            InvalidArgumentException::class
+            new InvalidArgumentException(sprintf('Invalid Registration \'%s\'', $registration))
         );
 
         return $registration;
