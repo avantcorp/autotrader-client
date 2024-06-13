@@ -118,12 +118,9 @@ class Client
 
     public function getCompetitors(string $href, array $query): Competitors
     {
+        [$url, $query] = $this->mergeQueryParams($href, $query);
         $response = $this->request()
-            ->get($href,
-                collect($query)
-                    ->put('advertiserId', $this->advertiserId)
-                    ->toArray()
-            )
+            ->get($url, $query)
             ->throw()
             ->object();
 
@@ -243,7 +240,7 @@ class Client
         return $this->updateStock($stock);
     }
 
-    public function createOrUpdateStock(Stock $stock)
+    public function createOrUpdateStock(Stock $stock): Stock
     {
         try {
             return $this->createStock($stock);
@@ -258,5 +255,19 @@ class Client
 
             throw $exception;
         }
+    }
+
+    protected function mergeQueryParams(string $url, array $query = []): array
+    {
+        if (empty($query)) {
+            return [$url, []];
+        }
+
+        [$url, $queryString] = explode('?', str_contains($url, '?') ? $url : "$url?", 2);
+        parse_str($queryString, $queryStringArray);
+
+        $query += $queryStringArray;
+
+        return [$url, $query];
     }
 }
