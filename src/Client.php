@@ -116,7 +116,7 @@ class Client
         return new Valuation($response);
     }
 
-    public function getCompetitors(string $href, array $query): Competitors
+    public function getCompetitors(string $href, array $query = []): Competitors
     {
         [$url, $query] = $this->mergeQueryParams($href, $query);
         $response = $this->request()
