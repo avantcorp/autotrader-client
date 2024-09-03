@@ -268,15 +268,11 @@ class Client
 
     protected function mergeQueryParams(string $url, array $query = []): array
     {
-        if (empty($query)) {
-            return [$url, []];
-        }
+        parse_str(parse_url($url, PHP_URL_QUERY), $urlQuery);
 
-        [$url, $queryString] = explode('?', str_contains($url, '?') ? $url : "$url?", 2);
-        parse_str($queryString, $queryStringArray);
-
-        $query += $queryStringArray;
-
-        return [$url, $query];
+        return [
+            explode('?', $url, 2)[0],
+            array_merge($urlQuery, $query),
+        ];
     }
 }
