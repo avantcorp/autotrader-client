@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Taz\AutoTraderStockClient;
 
 use Carbon\Carbon;
+use GuzzleHttp\Middleware;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use Psr\Http\Message\RequestInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Taz\AutoTraderStockClient\Enums\LifecycleState;
 use Taz\AutoTraderStockClient\Enums\PublishStatus;
@@ -61,7 +63,14 @@ class Client
         return Http::baseUrl($this->baseUrl)
             ->withToken($this->token())
             ->acceptJson()
-            ->withOptions(['query' => ['advertiserId' => $this->advertiserId]]);
+            ->withMiddleware(Middleware::mapRequest(function (RequestInterface $request) {
+                parse_str($request->getUri()->getQuery(), $uriQuery);
+
+                return $request->withUri($request
+                    ->getUri()
+                    ->withQuery(http_build_query($uriQuery + ['advertiserId' => $this->advertiserId]))
+                );
+            }));
     }
 
     private function request(): PendingRequest
