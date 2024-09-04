@@ -139,7 +139,7 @@ class Client
                 ->throw()
                 ->object();
             $results = array_merge($results, $response->results);
-        } while (count($results) !== $response->totalResults && $page <= 11);
+        } while (count($results) !== $response->totalResults && $page <= 10);
 
         $results = collect($results)
             ->when($query->get('generation'), fn ($results, $generation) => $results
