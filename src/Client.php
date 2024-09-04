@@ -128,10 +128,28 @@ class Client
     public function getCompetitors(string $href, array $query = []): Competitors
     {
         [$url, $query] = $this->mergeQueryParams($href, $query);
-        $response = $this->request()
-            ->get($url, $query)
-            ->throw()
-            ->object();
+        $query = collect($query)->filter(fn($v) => $v !== '!');
+        $page = 1;
+        $results = [];
+        do {
+            $query->put('page', $page++);
+            $response = $this->request()
+                ->get($url, $query->toArray())
+                ->throw()
+                ->object();
+            $results = array_merge($results, $response->results);
+        } while (count($results) !== $response->totalResults);
+
+        $results = collect($results)
+            ->when($query->get('generation'), fn ($results, $generation) => $results
+                ->filter(fn ($result) => $result->vehicle->generation === $generation)
+            )
+            ->when(collect($query)->has('!insuranceWriteoffCategory'), fn ($results) => $results
+                ->filter(fn ($result) => is_null($result->check->insuranceWriteoffCategory))
+            )
+            ->values();
+        $response->totalResults = $results->count();
+        $response->results = $results->toArray();
 
         return new Competitors($response);
     }
