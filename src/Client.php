@@ -129,6 +129,7 @@ class Client
     {
         [$url, $query] = $this->mergeQueryParams($href, $query);
         $query = collect($query)->filter(fn($v) => $v !== '!');
+        $query->put('pageSize', 20);
         $page = 1;
         $results = [];
         do {
