@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace Taz\AutoTraderStockClient\Models;
 
+use Illuminate\Support\Collection;
 use Taz\AutoTraderStockClient\Casts\CollectionCast;
 
 /**
- * @property string        $completedDate
- * @property string        $expiryDate
- * @property int           $odometerValue
- * @property string        $odometerUnit
- * @property string        $motTestNumber
- * @property RfrAndComment $rfrAndComments
- * @property string        $testResult
+ * @property string                                    $completedDate
+ * @property string                                    $expiryDate
+ * @property int                                       $odometerValue
+ * @property string                                    $odometerUnit
+ * @property string                                    $motTestNumber
+ * @property Collection<RfrAndComment>|RfrAndComment[] $rfrAndComments
+ * @property string                                    $testResult
  */
 class MotTest extends Model
 {
