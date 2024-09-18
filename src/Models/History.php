@@ -9,7 +9,7 @@ use Taz\AutoTraderStockClient\Casts\CollectionCast;
 /**
  * @property bool          $exported
  * @property bool          $imported
- * @property keeperChanges $keeperChanges
+ * @property KeeperChanges $keeperChanges
  * @property int           $previousOwners
  * @property bool          $scrapped
  * @property bool          $stolen
@@ -20,7 +20,7 @@ class History extends Model
     protected $casts = [
         'exported'       => 'bool',
         'imported'       => 'bool',
-        'keeperChanges'  => CollectionCast::class.':'.keeperChanges::class,
+        'keeperChanges'  => CollectionCast::class.':'.KeeperChanges::class,
         'previousOwners' => 'int',
         'scrapped'       => 'bool',
         'stolen'         => 'bool',
