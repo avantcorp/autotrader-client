@@ -16,7 +16,7 @@ use Taz\AutoTraderStockClient\Casts\CollectionCast;
  * @property Media                         $media
  * @property Checks                        $checks
  * @property History                       $history
- * @property MotTest                       $motTests
+ * @property Collection<MotTest>|MotTest[] $motTests
  * @property Collection<Message>|Message[] $messages
  * @property VehicleMetrics                $vehicleMetrics
  * @property Links                         $links
