@@ -8,18 +8,17 @@ use Taz\AutoTraderStockClient\Enums\Category;
 use Taz\AutoTraderStockClient\Enums\Type;
 
 /**
- * @property float    $basicPrice
- * @property Category $category
- * @property bool     $factoryFitted
- * @property string   $genericName
- * @property string   $name
- * @property Type     $type
- * @property float    $vatPrice
+ * @property float  $basicPrice
+ * @property string $category
+ * @property bool   $factoryFitted
+ * @property string $genericName
+ * @property string $name
+ * @property Type   $type
+ * @property float  $vatPrice
  */
 class Feature extends Model
 {
     protected $casts = [
-        'category' => Category::class,
-        'type'     => Type::class,
+        'type' => Type::class,
     ];
 }
