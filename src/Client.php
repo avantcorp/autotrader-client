@@ -52,7 +52,7 @@ class Client
                     ->object(),
                 fn ($response) => cache()->remember(
                     static::CACHE_KEY,
-                    Carbon::parse($response->expires)->subMinutes(5),
+                    Carbon::parse($response->expires_at)->subMinutes(5),
                     fn () => $response->access_token
                 )
             )));
