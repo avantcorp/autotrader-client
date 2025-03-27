@@ -11,7 +11,7 @@ use Taz\AutoTraderStockClient\Enums\MessageType;
  * @property string      $message
  * @property MessageType $type
  */
-class Message extends Model
+class Warning extends Model
 {
     protected $casts = [
         'type' => MessageType::class,

@@ -42,7 +42,7 @@ test('all stock DTOs', function (): void {
 });
 
 test('delete all stock', function (): void {
-    $this->client->listStock(['lifecycleState' => LifecycleState::ForeCourt])
+    $this->client->listStock(['lifecycleState' => LifecycleState::Forecourt])
         ->each(function (Stock $stock): void {
             $stock = $this->client->deleteStock($stock);
             expect($stock->metadata->isDirty('lifecycleState'))->toBeFalse();

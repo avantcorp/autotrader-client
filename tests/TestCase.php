@@ -19,7 +19,7 @@ class TestCase extends BaseTestCase
             env('KEY'),
             env('SECRET'),
             env('ADVERTISER_ID'),
-            true
+            env('SANDBOX', true),
         );
     }
 

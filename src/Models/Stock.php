@@ -17,7 +17,7 @@ use Taz\AutoTraderStockClient\Casts\CollectionCast;
  * @property Checks                        $checks
  * @property History                       $history
  * @property Collection<MotTest>|MotTest[] $motTests
- * @property Collection<Message>|Message[] $messages
+ * @property Collection<Warning>|Warning[] $warnings
  * @property VehicleMetrics                $vehicleMetrics
  * @property Links                         $links
  * @property Valuations                    $valuations
@@ -34,7 +34,7 @@ class Stock extends Model
         'media'          => Media::class,
         'history'        => History::class,
         'motTests'       => CollectionCast::class.':'.MotTest::class,
-        'messages'       => CollectionCast::class.':'.Message::class,
+        'warnings'       => CollectionCast::class.':'.Warning::class,
         'vehicleMetrics' => VehicleMetrics::class,
         'links'          => Links::class,
         'valuations'     => Valuations::class,
