@@ -99,10 +99,17 @@ class Client
         return new Stock($response);
     }
 
-    public function getValuation(Stock $stock): Stock
+    public function getValuation(Stock $stock, ?iterable $features = null): Stock
     {
+        $parsedFeatures = !is_null($features)
+            ? [
+                'features' => Collection::wrap($features)
+                    ->map(fn ($feature) => ['name' => data_get($feature, 'name')])
+                    ->values(),
+            ]
+            : [];
         $response = $this->request()
-            ->post('/valuations', $stock->only(['vehicle']))
+            ->post('/valuations', array_merge($parsedFeatures, $stock->only(['vehicle'])))
             ->throw()
             ->object();
 
