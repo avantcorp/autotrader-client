@@ -1,9 +1,11 @@
 <?php
 
-namespace Taz\AutoTraderStockClient\Models;
+declare(strict_types=1);
+
+namespace Avant\AutoTraderClient\Models;
 
 use Illuminate\Support\Collection;
-use Taz\AutoTraderStockClient\Casts\CollectionCast;
+use Avant\AutoTraderClient\Casts\CollectionCast;
 
 /**
  * @property Collection<Href>|Href[] $images

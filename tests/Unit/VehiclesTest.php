@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Taz\AutoTraderStockClient\Models;
+use Avant\AutoTraderClient\Models;
 
 test('get vehicle', function (): void {
     $registration = 'KS17FOA';

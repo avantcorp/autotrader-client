@@ -2,11 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Taz\AutoTraderStockClient\Models;
+namespace Avant\AutoTraderClient\Models;
 
 /**
  * @property int|null $amountGBP
  */
-class Price extends Model
-{
-}
+class Price extends Model {}

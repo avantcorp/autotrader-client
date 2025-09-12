@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Taz\AutoTraderStockClient\Collections;
+namespace Avant\AutoTraderClient\Collections;
 
 use Illuminate\Support\Collection;
-use Taz\AutoTraderStockClient\Enums\Type;
-use Taz\AutoTraderStockClient\Models\Feature;
+use Avant\AutoTraderClient\Enums\Type;
+use Avant\AutoTraderClient\Models\Feature;
 
 class FeatureCollection extends Collection
 {
@@ -17,18 +17,18 @@ class FeatureCollection extends Collection
 
     public function standard(): FeatureCollection
     {
-        return $this->filterByType(Type::Standard());
+        return $this->filterByType(Type::Standard);
     }
 
     public function optional(): FeatureCollection
     {
-        return $this->filterByType(Type::Optional());
+        return $this->filterByType(Type::Optional);
     }
 
     public function groupByCategory(): Collection
     {
         return $this
-            ->groupBy(fn (Feature $feature) => $feature->category->value)
+            ->groupBy(fn (Feature $feature) => $feature->category)
             ->collect();
     }
 }

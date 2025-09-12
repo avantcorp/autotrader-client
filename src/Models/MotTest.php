@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Taz\AutoTraderStockClient\Models;
+namespace Avant\AutoTraderClient\Models;
 
 use Illuminate\Support\Collection;
-use Taz\AutoTraderStockClient\Casts\CollectionCast;
+use Avant\AutoTraderClient\Casts\CollectionCast;
 
 /**
  * @property string                                    $completedDate

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Taz\AutoTraderStockClient;
+namespace Avant\AutoTraderClient;
 
 use Carbon\Carbon;
 use GuzzleHttp\Middleware;
@@ -13,17 +13,17 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Psr\Http\Message\RequestInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Taz\AutoTraderStockClient\Enums\LifecycleState;
-use Taz\AutoTraderStockClient\Enums\PublishStatus;
-use Taz\AutoTraderStockClient\Enums\With;
-use Taz\AutoTraderStockClient\Models\Competitors;
-use Taz\AutoTraderStockClient\Models\Image;
-use Taz\AutoTraderStockClient\Models\Stock;
-use Taz\AutoTraderStockClient\Models\Valuation;
+use Avant\AutoTraderClient\Enums\LifecycleState;
+use Avant\AutoTraderClient\Enums\PublishStatus;
+use Avant\AutoTraderClient\Enums\With;
+use Avant\AutoTraderClient\Models\Competitors;
+use Avant\AutoTraderClient\Models\Image;
+use Avant\AutoTraderClient\Models\Stock;
+use Avant\AutoTraderClient\Models\Valuation;
 
 class Client
 {
-    public const CACHE_KEY = 'autotrader-stock-client.access_token';
+    public const CACHE_KEY = 'autotrader-client.access_token';
     private string $key;
     private string $secret;
     private string $advertiserId;
@@ -66,7 +66,8 @@ class Client
             ->withMiddleware(Middleware::mapRequest(function (RequestInterface $request) {
                 parse_str($request->getUri()->getQuery(), $uriQuery);
 
-                return $request->withUri($request
+                return $request->withUri(
+                    $request
                     ->getUri()
                     ->withQuery(http_build_query($uriQuery + ['advertiserId' => $this->advertiserId]))
                 );
@@ -83,7 +84,8 @@ class Client
     public function getVehicle(string $registration, iterable $with = [], iterable $query = []): Stock
     {
         $response = $this->request()
-            ->get('/vehicles',
+            ->get(
+                '/vehicles',
                 array_merge(
                     [
                         'registration' => sanitize_registration($registration),
@@ -92,7 +94,8 @@ class Client
                     Collection::wrap($with)
                         ->mapWithKeys(fn (With $option) => [$option->value => 'true'])
                         ->toArray()
-                ))
+                )
+            )
             ->throw()
             ->object();
 
@@ -135,7 +138,7 @@ class Client
     public function getCompetitors(string $href, array $query = []): Competitors
     {
         [$url, $query] = $this->mergeQueryParams($href, $query);
-        $query = collect($query)->filter(fn($v) => $v !== '!');
+        $query = collect($query)->filter(fn ($v) => $v !== '!');
         $query->put('pageSize', 20);
         $page = 1;
         $results = [];
@@ -149,10 +152,14 @@ class Client
         } while (count($results) !== $response->totalResults && $page <= 10);
 
         $results = collect($results)
-            ->when($query->get('generation'), fn ($results, $generation) => $results
+            ->when(
+                $query->get('generation'),
+                fn ($results, $generation) => $results
                 ->filter(fn ($result) => $result->vehicle->generation === $generation)
             )
-            ->when(collect($query)->has('!insuranceWriteoffCategory'), fn ($results) => $results
+            ->when(
+                collect($query)->has('!insuranceWriteoffCategory'),
+                fn ($results) => $results
                 ->filter(fn ($result) => is_null($result->check->insuranceWriteoffCategory))
             )
             ->values();

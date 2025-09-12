@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Taz\AutoTraderStockClient\Enums;
+namespace Avant\AutoTraderClient\Enums;
 
 enum MessageType: string
 {
@@ -10,4 +10,3 @@ enum MessageType: string
     case Error = 'ERROR';
     case Warning = 'WARNING';
 }
-

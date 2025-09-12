@@ -1,13 +1,13 @@
 <?php
 
 /**
- * @property \Taz\AutoTraderStockClient\Client $client
+ * @property \Avant\AutoTraderClient\Client $client
  */
 
 declare(strict_types=1);
 
-use Taz\AutoTraderStockClient\Enums\LifecycleState;
-use Taz\AutoTraderStockClient\Models\Stock;
+use Avant\AutoTraderClient\Enums\LifecycleState;
+use Avant\AutoTraderClient\Models\Stock;
 
 test('get stock list', function (): void {
     $stockList = $this->client->listStock();

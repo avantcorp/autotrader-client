@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Taz\AutoTraderStockClient\Models;
+namespace Avant\AutoTraderClient\Models;
 
 use ArrayAccess;
 use Illuminate\Contracts\Database\Eloquent\Castable;
@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Concerns\HidesAttributes;
 use Illuminate\Database\Eloquent\JsonEncodingException;
 use Illuminate\Support\Arr;
 use JsonSerializable;
-use Taz\AutoTraderStockClient\Casts\CollectionCast;
+use Avant\AutoTraderClient\Casts\CollectionCast;
 
 abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializable, Castable
 {

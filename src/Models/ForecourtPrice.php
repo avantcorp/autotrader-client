@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Taz\AutoTraderStockClient\Models;
+namespace Avant\AutoTraderClient\Models;
 
-class ForecourtPrice extends Price
-{
-}
+class ForecourtPrice extends Price {}

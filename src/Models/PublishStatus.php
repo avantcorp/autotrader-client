@@ -1,8 +1,10 @@
 <?php
 
-namespace Taz\AutoTraderStockClient\Models;
+declare(strict_types=1);
 
-use Taz\AutoTraderStockClient\Enums\PublishStatus as PublishStatusEnum;
+namespace Avant\AutoTraderClient\Models;
+
+use Avant\AutoTraderClient\Enums\PublishStatus as PublishStatusEnum;
 
 /**
  * @property PublishStatusEnum $status

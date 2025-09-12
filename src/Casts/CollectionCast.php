@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Taz\AutoTraderStockClient\Casts;
+namespace Avant\AutoTraderClient\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Support\Collection;

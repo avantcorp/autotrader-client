@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Taz\AutoTraderStockClient\Models;
+namespace Avant\AutoTraderClient\Models;
 
 /**
  * @property string $bodyType
@@ -19,6 +19,4 @@ namespace Taz\AutoTraderStockClient\Models;
  * @property string $transmissionType
  * @property string $wheelbaseType
  */
-class Oem extends Model
-{
-}
+class Oem extends Model {}

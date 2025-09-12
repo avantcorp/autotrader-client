@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Taz\AutoTraderStockClient\Models;
+namespace Avant\AutoTraderClient\Models;
 
 use Carbon\Carbon;
-use Taz\AutoTraderStockClient\Enums\LifecycleState;
+use Avant\AutoTraderClient\Enums\LifecycleState;
 
 /**
  * @property Carbon         $dateOnForecourt

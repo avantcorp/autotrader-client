@@ -1,14 +1,16 @@
 {
-  "name": "tazcorporation/autotrader-stock-client",
+  "name": "avantcorp/autotrader-client",
   "description": "Client for AutoTrader Stock API",
+  "minimum-stability": "stable",
+  "license": "MIT",
   "type": "library",
   "require": {
-    "ext-json": "*",
-    "guzzlehttp/guzzle": "^7.5"
+    "php": "^8.4",
+    "ext-json": "*"
   },
   "autoload": {
     "psr-4": {
-      "Taz\\AutoTraderStockClient\\": "src/"
+      "Avant\\AutoTraderClient\\": "src/"
     },
     "files": [
       "src/helpers.php"
@@ -19,14 +21,15 @@
       "Test\\": "tests/"
     }
   },
-  "require-dev": {
-    "orchestra/testbench": "^6.0",
-    "pestphp/pest": "^1.22"
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Avant\\AutoTraderClient\\AutoTraderClientServiceProvider"
+      ]
+    }
   },
-  "scripts": {
-    "post-autoload-dump": [
-      "@php vendor/bin/testbench package:discover --ansi"
-    ]
+  "require-dev": {
+    "orchestra/pest-plugin-testbench": "^3.2"
   },
   "config": {
     "allow-plugins": {

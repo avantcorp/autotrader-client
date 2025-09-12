@@ -2,19 +2,24 @@
     "preset": "psr12",
     "rules": {
         "array_indentation": true,
-        "blank_line_after_namespace": true,
-        "blank_line_after_opening_tag": true,
-        "concat_space": true,
+        "concat_space": {
+            "spacing": "none"
+        },
         "declare_parentheses": true,
-        "declare_strict_types": true,
+        "declare_strict_types": false,
         "explicit_string_variable": true,
-        "method_argument_space": false,
         "global_namespace_import": {
             "import_classes": true,
             "import_constants": true,
             "import_functions": false
         },
         "ordered_traits": true,
-        "void_return": true
+        "single_line_empty_body": true,
+        "void_return": true,
+        "binary_operator_spaces": {
+            "operators": {
+                "=>": "align_single_space_minimal_by_scope"
+            }
+        }
     }
 }

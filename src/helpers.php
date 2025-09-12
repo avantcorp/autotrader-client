@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Taz\AutoTraderStockClient;
+namespace Avant\AutoTraderClient;
 
 use InvalidArgumentException;
 

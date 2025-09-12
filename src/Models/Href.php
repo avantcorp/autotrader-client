@@ -1,10 +1,10 @@
 <?php
 
-namespace Taz\AutoTraderStockClient\Models;
+declare(strict_types=1);
+
+namespace Avant\AutoTraderClient\Models;
 
 /**
  * @property string|null $href
  */
-class Href extends Model
-{
-}
+class Href extends Model {}

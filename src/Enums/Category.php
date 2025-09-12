@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Taz\AutoTraderStockClient\Enums;
+namespace Avant\AutoTraderClient\Enums;
 
 enum Category: string
 {

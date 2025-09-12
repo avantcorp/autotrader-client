@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Taz\AutoTraderStockClient\Models;
+namespace Avant\AutoTraderClient\Models;
 
-use Taz\AutoTraderStockClient\Enums\Category;
-use Taz\AutoTraderStockClient\Enums\Type;
+use Avant\AutoTraderClient\Enums\Type;
 
 /**
  * @property float  $basicPrice

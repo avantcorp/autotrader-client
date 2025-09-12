@@ -1,6 +1,8 @@
 <?php
 
-namespace Taz\AutoTraderStockClient\Enums;
+declare(strict_types=1);
+
+namespace Avant\AutoTraderClient\Enums;
 
 enum PublishStatus: string
 {

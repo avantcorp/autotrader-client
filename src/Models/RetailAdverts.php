@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Taz\AutoTraderStockClient\Models;
+namespace Avant\AutoTraderClient\Models;
 
-use Taz\AutoTraderStockClient\Enums\VatStatus;
+use Avant\AutoTraderClient\Enums\VatStatus;
 
 /**
  * @property Price         $suppliedPrice
