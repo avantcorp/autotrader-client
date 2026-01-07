@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Avant\AutoTraderClient\Models;
 
-use Illuminate\Support\Collection;
 use Avant\AutoTraderClient\Casts\CollectionCast;
+use Illuminate\Support\Collection;
 
 /**
- * @property int                       $totalResults
- * @property Collection<Stock>|Stock[] $results
+ * @property int               $totalResults
+ * @property Collection<Stock> $results
  */
 class Competitors extends Model
 {

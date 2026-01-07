@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Avant\AutoTraderClient\Models;
 
-use Illuminate\Support\Collection;
 use Avant\AutoTraderClient\Casts\CollectionCast;
+use Illuminate\Support\Collection;
 
 /**
- * @property Collection<Href>|Href[] $images
- * @property Href                    $video
- * @property Href                    $spin
+ * @property Collection<Href> $images
+ * @property Href             $video
+ * @property Href             $spin
  */
 class Media extends Model
 {

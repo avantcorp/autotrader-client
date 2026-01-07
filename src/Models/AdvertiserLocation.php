@@ -13,7 +13,7 @@ namespace Avant\AutoTraderClient\Models;
  * @property float  $latitude
  * @property float  $longitude
  */
-class Location extends Model
+class AdvertiserLocation extends Model
 {
     protected $casts = [
         'latitude'  => 'float',

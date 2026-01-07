@@ -4,15 +4,6 @@ declare(strict_types=1);
 
 namespace Avant\AutoTraderClient;
 
-use Carbon\Carbon;
-use GuzzleHttp\Middleware;
-use Illuminate\Http\Client\PendingRequest;
-use Illuminate\Http\Client\RequestException;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Str;
-use Psr\Http\Message\RequestInterface;
-use Symfony\Component\HttpFoundation\Response;
 use Avant\AutoTraderClient\Enums\LifecycleState;
 use Avant\AutoTraderClient\Enums\PublishStatus;
 use Avant\AutoTraderClient\Enums\With;
@@ -20,20 +11,34 @@ use Avant\AutoTraderClient\Models\Competitors;
 use Avant\AutoTraderClient\Models\Image;
 use Avant\AutoTraderClient\Models\Stock;
 use Avant\AutoTraderClient\Models\Valuation;
+use Carbon\Carbon;
+use GuzzleHttp\Middleware;
+use Illuminate\Container\Attributes\Config;
+use Illuminate\Container\Attributes\Singleton;
+use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Http\Client\RequestException;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
+use Psr\Http\Message\RequestInterface;
+use Symfony\Component\HttpFoundation\Response;
 
-class Client
+#[Singleton]
+readonly class Client
 {
-    public const CACHE_KEY = 'autotrader-client.access_token';
-    private string $key;
-    private string $secret;
-    private string $advertiserId;
+    private const string CACHE_KEY = 'autotrader-client.access-token';
     private string $baseUrl;
 
-    public function __construct($key, $secret, $advertiserId, $sandbox = false)
-    {
-        $this->key = $key;
-        $this->secret = $secret;
-        $this->advertiserId = $advertiserId;
+    public function __construct(
+        #[Config('services.autotrader.key')]
+        private string $key,
+        #[Config('services.autotrader.secret')]
+        private string $secret,
+        #[Config('services.autotrader.advertiser_id')]
+        private string $advertiserId,
+        #[Config('services.autotrader.sandbox', default: false)]
+        bool $sandbox
+    ) {
         $this->baseUrl = sprintf('https://%s.autotrader.co.uk/', $sandbox ? 'api-sandbox' : 'api');
     }
 
@@ -68,8 +73,8 @@ class Client
 
                 return $request->withUri(
                     $request
-                    ->getUri()
-                    ->withQuery(http_build_query($uriQuery + ['advertiserId' => $this->advertiserId]))
+                        ->getUri()
+                        ->withQuery(http_build_query($uriQuery + ['advertiserId' => $this->advertiserId]))
                 );
             }));
     }
@@ -119,16 +124,23 @@ class Client
         return new Stock($response);
     }
 
-    public function getVehicleMetrics(Stock $stock, int $mileage): Valuation
+    public function getVehicleMetrics(Stock $stock, int $mileage): ?Valuation
     {
-        $response = $this->request()
-            ->post('/vehicle-metrics', [
-                'vehicle' => [
-                    'derivativeId'          => $stock->vehicle->derivativeId,
-                    'firstRegistrationDate' => $stock->vehicle->firstRegistrationDate,
-                    'odometerReadingMiles'  => $mileage,
-                ],
+        if (empty($stock->vehicle->derivativeId)) {
+            return null;
+        }
+
+        $data = collect()
+            ->put('vehicle', [
+                'derivativeId'          => $stock->vehicle->derivativeId,
+                'firstRegistrationDate' => $stock->vehicle->firstRegistrationDate,
+                'odometerReadingMiles'  => $mileage,
             ])
+            ->put('locations', [['advertiserId' => $this->advertiserId]])
+            ->toArray();
+
+        $response = $this->request()
+            ->post('/vehicle-metrics', $data)
             ->throw()
             ->object();
 
@@ -155,12 +167,12 @@ class Client
             ->when(
                 $query->get('generation'),
                 fn ($results, $generation) => $results
-                ->filter(fn ($result) => $result->vehicle->generation === $generation)
+                    ->filter(fn ($result) => $result->vehicle->generation === $generation)
             )
             ->when(
                 collect($query)->has('!insuranceWriteoffCategory'),
                 fn ($results) => $results
-                ->filter(fn ($result) => is_null($result->check->insuranceWriteoffCategory))
+                    ->filter(fn ($result) => is_null($result->check->insuranceWriteoffCategory))
             )
             ->values();
         $response->totalResults = $results->count();

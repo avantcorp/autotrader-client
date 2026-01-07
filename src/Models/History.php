@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Avant\AutoTraderClient\Models;
 
-use Illuminate\Support\Collection;
 use Avant\AutoTraderClient\Casts\CollectionCast;
+use Illuminate\Support\Collection;
 
 /**
- * @property bool                                      $exported
- * @property bool                                      $imported
- * @property Collection<KeeperChanges>|KeeperChanges[] $keeperChanges
- * @property int                                       $previousOwners
- * @property bool                                      $scrapped
- * @property bool                                      $stolen
- * @property Collection<V5CS>|V5CS[]                   $v5cs
+ * @property bool                      $exported
+ * @property bool                      $imported
+ * @property Collection<KeeperChanges> $keeperChanges
+ * @property int                       $previousOwners
+ * @property bool                      $scrapped
+ * @property bool                      $stolen
+ * @property Collection<V5CS>          $v5cs
  */
 class History extends Model
 {

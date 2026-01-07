@@ -59,6 +59,7 @@ namespace Avant\AutoTraderClient\Models;
  * @property string $make
  * @property int    $minimumKerbWeightKG
  * @property string $model
+ * @property string $origin
  * @property int    $odometerReadingMiles
  * @property Oem    $oem
  * @property int    $owners
@@ -127,6 +128,7 @@ class Vehicle extends Model
         'lengthMM'                              => 'int',
         'minimumKerbWeightKG'                   => 'int',
         'odometerReadingMiles'                  => 'int',
+        'origin'                                => 'string',
         'oem'                                   => Oem::class,
         'owners'                                => 'int',
         'payloadHeightMM'                       => 'int',

@@ -7,6 +7,6 @@ namespace Avant\AutoTraderClient\Models;
 class Advertiser extends Model
 {
     protected $casts = [
-        'location' => Location::class,
+        'location' => AdvertiserLocation::class,
     ];
 }
