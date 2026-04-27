@@ -107,17 +107,38 @@ readonly class Client
         return new Stock($response);
     }
 
-    public function getValuation(Stock $stock, ?iterable $features = null): Stock
+    public function getValuation(Stock $stock, int $mileage, ?iterable $features = null): Stock
     {
-        $parsedFeatures = !is_null($features)
-            ? [
-                'features' => Collection::wrap($features)
-                    ->map(fn ($feature) => ['name' => data_get($feature, 'name')])
-                    ->values(),
-            ]
-            : [];
+        $payload = collect([
+            'vehicle' => [
+                'derivativeId'          => $stock->vehicle->derivativeId,
+                'firstRegistrationDate' => $stock->vehicle->firstRegistrationDate,
+                'odometerReadingMiles'  => $mileage,
+            ],
+        ]);
+
+        if(is_null($features) && $stock->features->isEmpty()){
+            $features = $this->getVehicle($stock->vehicle->registration, [With::Features])->features;
+        }
+
+        if(! $features instanceof Collection){
+            $features = collect($features);
+        }
+
+        $features
+            ->where('type', 'Optional')
+            ->where('factoryFitted', true)
+            ->whenNotEmpty(fn (Collection $features) => $payload
+                ->put(
+                    'features',
+                    $features
+                        ->map(fn ($feature): array => ['name' => data_get($feature, 'name')])
+                        ->values()
+                )
+            );
+
         $response = $this->request()
-            ->post('/valuations', array_merge($parsedFeatures, $stock->only(['vehicle'])))
+            ->post('/valuations', $payload)
             ->throw()
             ->object();
 
